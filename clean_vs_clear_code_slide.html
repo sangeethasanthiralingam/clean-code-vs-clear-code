@@ -845,228 +845,494 @@ const currentDate = DateTimeProvider.now();
         </div>
       </div>
     </div>
-    <!-- Slide: Performance Impact -->
-    <div class="slide">
-      <div class="slide-header">
-        <h1 class="slide-title">Performance Impact</h1>
-        <p class="slide-subtitle">How Clean and Clear Code affect speed and resources</p>
-      </div>
-      <div class="single-column">
-        <div class="principle-card">
-          <h3 class="principle-title">Abstraction vs. Directness</h3>
-          <p class="principle-description">Clean Code may introduce abstraction layers (e.g., design patterns, domain
-            objects) that can add minor overhead, while Clear Code often favors direct logic for speed. For most
-            business apps, the difference is negligible, but in performance-critical code (e.g., game loops, data
-            processing), minimalism can matter.</p>
-        </div>
-        <!-- <div class="principle-card">
-      <h3 class="principle-title">Speaker Cue</h3>
-      <p class="principle-description"><em>Ask:</em> "Has anyone here ever had to refactor code for performance? What trade-offs did you make?"</p>
-    </div> -->
-      </div>
-    </div>
     <!-- Slide: Hybrid Approach -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Hybrid Approach: Best of Both Worlds</h1>
-        <p class="slide-subtitle">When to combine Clean and Clear Code</p>
+        <p class="slide-subtitle">When to combine Clean Code and Clear Code</p>
       </div>
+      
+      <!-- Why Use Hybrid Section -->
       <div class="single-column">
         <div class="principle-card">
-          <h3 class="principle-title">Practical Example</h3>
-          <pre
-            style="background:#2d3748;color:#e2e8f0;padding:15px;border-radius:8px;font-size:0.95rem;overflow-x:auto;"><code>class UserService {
+          <h3 class="principle-title">✅ Why use a hybrid?</h3>
+          <ul style="list-style-type: disc; padding-left: 20px; color: #555; margin-top: 10px;">
+            <li><strong>Real-world constraints:</strong> You often need maintainability (Clean Code) and immediate readability (Clear Code), especially on fast-moving projects.</li>
+            <li><strong>Team diversity:</strong> Some teammates prefer structured abstractions, while others need quick, direct understanding.</li>
+            <li><strong>Balanced performance and design:</strong> You can keep critical paths direct and clear while maintaining an overall clean, testable architecture.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Practical Example Section -->
+      <div class="single-column">
+        <div class="principle-card">
+          <h3 class="principle-title">💡 Practical Example</h3>
+          <pre style="background:#2d3748;color:#e2e8f0;padding:15px;border-radius:8px;font-size:0.95rem;overflow-x:auto;"><code>class UserService {
   // Clean Code: Strong typing and single responsibility
-  async createUserAccount(userData: CreateUserRequest): Promise<UserCreationResult> {
+  async createUserAccount(userData: CreateUserRequest): Promise&lt;{ success: boolean; user?: User; errors?: string[] }&gt; {
     // Clear Code: Explicit step-by-step logic
+
+    // Step 1: Validate
     const validationErrors = this.validateUserData(userData);
     if (validationErrors.length > 0) {
       return { success: false, errors: validationErrors };
     }
+
+    // Step 2: Save to database
     const newUser = await this.saveUserToDatabase(userData);
+
+    // Step 3: Send welcome email
     await this.sendWelcomeEmail(newUser);
+
+    // Step 4: Return success
     return { success: true, user: newUser };
+  }
+
+  private validateUserData(userData: CreateUserRequest): string[] {
+    const errors: string[] = [];
+    if (!userData.email.includes('@')) {
+      errors.push('Invalid email format.');
+    }
+    if (userData.password.length < 8) {
+      errors.push('Password must be at least 8 characters.');
+    }
+    return errors;
+  }
+
+  private async saveUserToDatabase(userData: CreateUserRequest): Promise&lt;User&gt; {
+    // Imagine ORM or repository logic here
+    return db.user.create(userData);
+  }
+
+  private async sendWelcomeEmail(user: User): Promise&lt;void&gt; {
+    // Email service logic here
+    await emailService.send({
+      to: user.email,
+      subject: 'Welcome!',
+      body: 'Thank you for joining us.',
+    });
   }
 }</code></pre>
         </div>
-        <!-- <div class="principle-card">
-      <h3 class="principle-title">Speaker Note</h3>
-      <p class="principle-description">"Most real-world codebases blend both philosophies. The key is knowing when to optimize for clarity and when for maintainability."</p>
-    </div> -->
+      </div>
+
+      <!-- Why This is Hybrid Section -->
+      <div class="content-grid">
+        <div class="content-column">
+          <h2 class="column-title">🧼 Clean Code Elements</h2>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Strong typing:</strong> `CreateUserRequest`, `User` types</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Small, single-purpose methods:</strong> `validateUserData`, `saveUserToDatabase`, `sendWelcomeEmail`</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Separation of concerns:</strong> Each method has one clear responsibility</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Testable design:</strong> Private methods can be easily unit tested</span>
+            </li>
+          </ul>
+        </div>
+        <div class="content-column">
+          <h2 class="column-title">👁️ Clear Code Elements</h2>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Straightforward, linear flow:</strong> Easy to read without jumping around</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Explicit, descriptive names:</strong> Clearly show each step</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Immediate error handling:</strong> Validation logic up front</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Step-by-step comments:</strong> Guide the reader through the process</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Practical Takeaway Section -->
+      <div class="single-column">
+        <div class="principle-card">
+          <h3 class="principle-title">💬 Practical Takeaway</h3>
+          <div style="background: #f7fafc; border-left: 4px solid #667eea; padding: 15px; margin-top: 10px; border-radius: 0 8px 8px 0;">
+            <p style="margin: 0; font-style: italic; color: #4a5568;">
+              Combine <strong>clean architectural structure</strong> (abstractions, testability) with <strong>clear, easy-to-follow local logic</strong> (linear steps, explicit conditions) to make your code robust <em>and</em> approachable.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Slide: FAQ & Migration Strategies -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">FAQ & Migration Strategies</h1>
-        <p class="slide-subtitle">Addressing common concerns and transitions</p>
+        <p class="slide-subtitle">Addressing common concerns and transitions when balancing Clean and Clear Code</p>
       </div>
+      
+      <!-- FAQ Section -->
       <div class="single-column">
         <div class="principle-card">
-          <h3 class="principle-title">Q: What if my team prefers one style?</h3>
-          <p class="principle-description">A: Align on shared guidelines, but allow flexibility for context. Document
-            your decisions.</p>
+          <h3 class="principle-title">❓ Q: What if my team strongly prefers one style?</h3>
+          <p class="principle-description">
+            <strong>✅ A:</strong><br>
+            • Align on shared guidelines early (e.g., in your engineering handbook or contribution guide).<br>
+            • Allow flexibility depending on context (e.g., tight deadline prototypes vs. core domain modules).<br>
+            • Document style decisions clearly in code comments or design docs, so future contributors understand <em>why</em> you chose a particular style.
+          </p>
         </div>
+        
         <div class="principle-card">
-          <h3 class="principle-title">Q: How do we migrate legacy code?</h3>
-          <p class="principle-description">A: Refactor incrementally. Start with new features and high-churn areas. Use
-            tests to ensure safety.</p>
+          <h3 class="principle-title">❓ Q: How do we migrate legacy code to a cleaner or clearer style?</h3>
+          <p class="principle-description">
+            <strong>✅ A:</strong><br>
+            • <strong>Refactor incrementally</strong>, not all at once (big rewrites are risky and costly).<br>
+            • Prioritize high-churn or business-critical areas (where changes happen most and bugs are costly).<br>
+            • Write or improve tests first to protect behavior before refactoring.<br>
+            • Use feature flags or gradual rollouts to manage risk if the changes are large.<br>
+            • Adopt a "boy scout rule": Leave code cleaner than you found it whenever you touch it.
+          </p>
         </div>
-        <!-- <div class="principle-card">
-      <h3 class="principle-title">Speaker Note</h3>
-      <p class="principle-description">"Invite questions from the audience—what's your biggest codebase pain point?"</p>
-    </div> -->
+        
+        <div class="principle-card">
+          <h3 class="principle-title">❓ Q: Will introducing Clean Code slow us down?</h3>
+          <p class="principle-description">
+            <strong>✅ A:</strong><br>
+            • There can be an upfront learning and design cost, but it reduces long-term maintenance pain.<br>
+            • For one-off scripts or temporary experiments, it's fine to lean more on Clear Code and speed.<br>
+            • Balance rigor with delivery needs — optimize for long-term value when code will live for years.
+          </p>
+        </div>
+        
+        <div class="principle-card">
+          <h3 class="principle-title">❓ Q: Can we mix Clean and Clear Code within the same project?</h3>
+          <p class="principle-description">
+            <strong>✅ A:</strong><br>
+            • Absolutely — this is the hybrid approach.<br>
+            • Use Clean Code for core architecture, shared utilities, and domain-heavy logic.<br>
+            • Use Clear Code for small helpers, glue code, or fast paths that need to be immediately understood.<br>
+            • The key: be intentional and consistent in <em>where</em> you use each style.
+          </p>
+        </div>
+      </div>
+
+      <!-- Migration Tips Section -->
+      <div class="single-column">
+        <div class="principle-card">
+          <h3 class="principle-title">🛠️ Migration Tips</h3>
+          <ul style="list-style-type: disc; padding-left: 20px; color: #555; margin-top: 10px;">
+            <li>Start by <strong>introducing clear naming and function extraction</strong> — these are low-risk, high-impact.</li>
+            <li>Encourage code reviews to reinforce shared style gradually.</li>
+            <li>Monitor code health metrics (e.g., code churn, bug rates) to measure improvements over time.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Final Note Section -->
+      <div class="single-column">
+        <div class="principle-card">
+          <h3 class="principle-title">✅ Final Note</h3>
+          <div style="background: #f7fafc; border-left: 4px solid #667eea; padding: 15px; margin-top: 10px; border-radius: 0 8px 8px 0;">
+            <p style="margin: 0; font-style: italic; color: #4a5568;">
+              "Consistency is more important than perfection. A pragmatic, gradual approach keeps your codebase healthy without slowing your team down."
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Slide: Tooling & IDE Support -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Tooling & IDE Support</h1>
-        <p class="slide-subtitle">How tools help enforce Clean and Clear Code</p>
+        <p class="slide-subtitle">How tools help enforce Clean and Clear Code principles</p>
       </div>
+      
       <div class="content-grid">
         <div class="content-column">
           <h2 class="column-title">🧼 Clean Code Tools</h2>
           <ul class="feature-list">
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Linters (ESLint,
-                Pylint, etc.)</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Static analysis
-                (SonarQube, CodeClimate)</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Refactoring tools (IDE
-                built-ins, Resharper)</span></li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text">
+                <strong>Linters</strong><br>
+                <em>Examples:</em> ESLint (JavaScript/TypeScript), Pylint (Python), TSLint (TypeScript legacy)<br>
+                → Enforce consistent code style, catch anti-patterns, and enforce architectural rules.
+              </span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text">
+                <strong>Static analysis</strong><br>
+                <em>Examples:</em> SonarQube, CodeClimate, DeepSource<br>
+                → Identify code smells, technical debt, complex dependencies, and security issues early.
+              </span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text">
+                <strong>Refactoring tools</strong><br>
+                <em>Examples:</em> IDE built-ins (VSCode, IntelliJ), Resharper (.NET), Rider, PyCharm<br>
+                → Make safe structural changes (rename, extract, move, etc.) to support maintainability without manual errors.
+              </span>
+            </li>
           </ul>
         </div>
         <div class="content-column">
           <h2 class="column-title">👁️ Clear Code Tools</h2>
           <ul class="feature-list">
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Auto-formatters
-                (Prettier, Black, gofmt)</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Naming suggestions
-                (IntelliSense, Copilot)</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Readability plugins
-                (Code Spell Checker, Highlight Matching Tag)</span></li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text">
+                <strong>Auto-formatters</strong><br>
+                <em>Examples:</em> Prettier (JavaScript/TypeScript), Black (Python), gofmt (Go)<br>
+                → Ensure uniform, instantly readable formatting automatically — reduces friction in code reviews.
+              </span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text">
+                <strong>Naming suggestions and completions</strong><br>
+                <em>Examples:</em> IntelliSense (VSCode, Visual Studio), Copilot (GitHub), TabNine<br>
+                → Encourage more descriptive, human-friendly names while writing code in real time.
+              </span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text">
+                <strong>Readability & clarity plugins</strong><br>
+                <em>Examples:</em> Code Spell Checker (VSCode), Highlight Matching Tag (VSCode), Bracket Pair Colorizer<br>
+                → Improve quick comprehension, especially for large files or nested structures.
+              </span>
+            </li>
           </ul>
         </div>
       </div>
-      <div class="single-column" style="margin-top:20px;">
-        <!-- <div class="principle-card">
-      <h3 class="principle-title">Speaker Note</h3>
-      <p class="principle-description">"Demo: Show how a linter or formatter can catch issues live in your IDE."</p>
-    </div> -->
-      </div>
-    </div>
-    <!-- Slide: Real-World Case Study -->
-    <div class="slide">
-      <div class="slide-header">
-        <h1 class="slide-title">Real-World Case Study</h1>
-        <p class="slide-subtitle">Comparing both approaches on a real feature</p>
-      </div>
-      <div class="single-column">
+
+      <!-- Key Takeaway Section -->
+      <div class="single-column" style="margin-top: 30px;">
         <div class="principle-card">
-          <h3 class="principle-title">Feature: User Registration</h3>
-          <p class="principle-description">Show the same feature implemented in both Clean Code (modular, abstracted)
-            and Clear Code (direct, explicit) styles. Discuss trade-offs in readability, maintainability, and
-            onboarding.</p>
-        </div>
-        <div class="principle-card">
-          <h3 class="principle-title">Interactive Cue</h3>
-          <p class="principle-description">"Ask the audience: Which version would you prefer to maintain? Why?"</p>
+          <h3 class="principle-title">💡 Key Takeaway</h3>
+          <div style="background: #f7fafc; border-left: 4px solid #667eea; padding: 15px; margin-top: 10px; border-radius: 0 8px 8px 0;">
+            <p style="margin: 0; font-style: italic; color: #4a5568;">
+              Tools <strong>amplify team discipline</strong> — they can't replace thoughtful design, but they make it easier to stay consistent and catch issues early.
+            </p>
+          </div>
         </div>
       </div>
+
+  
     </div>
     <!-- Slide: Industry Examples -->
     <div class="slide">
       <div class="slide-header">
-        <h1 class="slide-title">Industry Examples</h1>
-        <p class="slide-subtitle">How major companies apply these principles</p>
+        <h1 class="slide-title">Industry Examples: Clean vs. Clear Code</h1>
+        <p class="slide-subtitle">How major companies balance these approaches</p>
       </div>
-      <div class="content-grid">
-        <div class="content-column">
-          <h2 class="column-title">🧼 Clean Code in the Wild</h2>
-          <ul class="feature-list">
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Google: Strict code
-                reviews, style guides, SOLID principles</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Microsoft: Emphasis on
-                maintainability for large teams</span></li>
-          </ul>
-        </div>
-        <div class="content-column">
-          <h2 class="column-title">👁️ Clear Code in the Wild</h2>
-          <ul class="feature-list">
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Startups: Fast
-                prototyping, direct logic, minimal abstraction</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Open source:
-                Readability prioritized for contributors</span></li>
-          </ul>
+      
+      <!-- Company Comparison Table -->
+      <div class="single-column" style="margin-bottom: 30px;">
+        <table class="comparison-table" style="font-size: 0.9rem;">
+          <thead>
+            <tr>
+              <th style="width: 15%;">Company / Context</th>
+              <th style="width: 25%;">Clean Code Focus</th>
+              <th style="width: 25%;">Clear Code Focus</th>
+              <th style="width: 35%;">Why?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #f0f8f0;">
+              <td><strong>🟢 Google</strong></td>
+              <td>
+                ✅ Strict style guides<br>
+                ✅ Heavy code reviews<br>
+                ✅ SOLID & architectural rigor
+              </td>
+              <td>⚪ Less emphasis on minimalism in local logic</td>
+              <td>Global scale and long-term maintainability</td>
+            </tr>
+            <tr style="background-color: #f0f0f8;">
+              <td><strong>🔵 Microsoft</strong></td>
+              <td>
+                ✅ Maintainability<br>
+                ✅ Legacy support<br>
+                ✅ Extensive testing & strong abstractions
+              </td>
+              <td>⚪ Some products (e.g., experiments) move faster</td>
+              <td>Large, mature products require stability</td>
+            </tr>
+            <tr style="background-color: #f8f0f8;">
+              <td><strong>🟣 Airbnb</strong></td>
+              <td>
+                ✅ Typed, reusable components<br>
+                ✅ Strong design patterns in React/TS
+              </td>
+              <td>⚪ Rapid feature dev sometimes favors local clarity</td>
+              <td>Balances product speed and engineering scale</td>
+            </tr>
+            <tr style="background-color: #fff8f0;">
+              <td><strong>🟠 Startups</strong></td>
+              <td>⚪ Light abstractions</td>
+              <td>
+                ✅ Fast prototyping<br>
+                ✅ Simple structures
+              </td>
+              <td>Need speed and quick iteration</td>
+            </tr>
+            <tr style="background-color: #fffff0;">
+              <td><strong>🟡 Open source</strong></td>
+              <td>⚪ Some shared core infra modules are clean-coded</td>
+              <td>
+                ✅ Prioritize broad readability<br>
+                ✅ Explicit flow
+              </td>
+              <td>New contributors need to understand code quickly</td>
+            </tr>
+            <tr style="background-color: #f8f0f0;">
+              <td><strong>🟤 Figma, Notion</strong></td>
+              <td>⚪ Core infra uses clean patterns internally</td>
+              <td>
+                ✅ App layers emphasize clear, direct logic
+              </td>
+              <td>Collaboration-friendly and fast UI iteration</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Hybrid Example Section -->
+      <div class="single-column" style="margin-bottom: 30px;">
+        <div class="principle-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+          <h3 class="principle-title" style="color: white;">💡 Hybrid Example: Facebook / Meta</h3>
+          <div style="display: flex; gap: 20px; margin-top: 15px;">
+            <div style="flex: 1; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+              <h4 style="color: white; margin-top: 0;">🧼 Core Frameworks & Shared Infra</h4>
+              <p style="color: white; margin: 0;">Clean Code approach with rigid patterns and strong typing for long-term stability</p>
+            </div>
+            <div style="flex: 1; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+              <h4 style="color: white; margin-top: 0;">👁️ Product Surfaces & A/B Tests</h4>
+              <p style="color: white; margin: 0;">Clear Code approach for quick changes and explicit behavior in fast-moving features</p>
+            </div>
+          </div>
+          <p style="color: white; margin-top: 15px; font-style: italic;">
+            <strong>Why?</strong> Enables both fast experiments and long-term code health
+          </p>
         </div>
       </div>
-      <div class="single-column" style="margin-top:20px;">
-        <!-- <div class="principle-card">
-      <h3 class="principle-title">Speaker Note</h3>
-      <p class="principle-description">"Highlight: No one-size-fits-all. Even big companies adapt their style to the project and team."</p>
-    </div> -->
+
+      <!-- Key Takeaway Section -->
+      <div class="single-column">
+        <div class="principle-card" style="background: #f7fafc; border-left: 4px solid #667eea;">
+          <h3 class="principle-title">✅ Key Takeaway</h3>
+          <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #2d3748;">
+              <strong>"Use Clean Code for stability and shared foundations.<br>
+              Use Clear Code for fast-moving, user-facing, or experimental parts.<br>
+              Mix them intentionally — that's modern software reality."</strong>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Slide: Team Adoption Strategies -->
     <div class="slide">
       <div class="slide-header">
-        <h1 class="slide-title">Team Adoption Strategies</h1>
-        <p class="slide-subtitle">How to implement Clean and Clear Code practices</p>
+        <h1 class="slide-title">🤝 Team Adoption Strategies</h1>
+        <p class="slide-subtitle">How to implement Clean and Clear Code practices successfully</p>
       </div>
-      <div class="single-column">
-        <div class="principle-card">
-          <h3 class="principle-title">Start Small</h3>
-          <p class="principle-description">Adopt one or two principles at a time. Celebrate small wins and improvements.
-          </p>
-        </div>
-        <div class="principle-card">
-          <h3 class="principle-title">Build Consensus</h3>
-          <p class="principle-description">Discuss as a team, document your standards, and review code together.</p>
-        </div>
-        <!-- <div class="principle-card">
-      <h3 class="principle-title">Speaker Note</h3>
-      <p class="principle-description">"Encourage: Share a story of a successful team transition or ask the audience for theirs."</p>
-    </div> -->
-      </div>
-    </div>
-    <!-- Slide: Measuring Code Quality -->
-    <div class="slide">
-      <div class="slide-header">
-        <h1 class="slide-title">Measuring Code Quality</h1>
-        <p class="slide-subtitle">Metrics for Clean and Clear Code</p>
-      </div>
+      
       <div class="content-grid">
         <div class="content-column">
-          <h2 class="column-title">🧼 Clean Code Metrics</h2>
+          <h2 class="column-title">🌱 Start Small</h2>
           <ul class="feature-list">
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Cyclomatic
-                complexity</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Code coverage</span>
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Begin with <strong>one or two principles</strong> (e.g., consistent naming, shorter functions)</span>
             </li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Number of code
-                smells</span></li>
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Celebrate <strong>small wins</strong> — highlight improved PRs in team meetings or retrospectives</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Avoid trying to "rewrite everything" at once; focus on incremental progress</span>
+            </li>
           </ul>
         </div>
+        
         <div class="content-column">
-          <h2 class="column-title">👁️ Clear Code Metrics</h2>
+          <h2 class="column-title">💬 Build Consensus</h2>
           <ul class="feature-list">
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Readability scores
-                (e.g., comment/code ratio)</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">Time to onboard new
-                devs</span></li>
-            <li class="feature-item"><span class="feature-icon"></span><span class="feature-text">PR review time</span>
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Facilitate <strong>team discussions</strong> to align on what "clean" and "clear" mean for your context</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Create and document <strong>style guides or cheat sheets</strong> so expectations are visible</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Use <strong>code reviews as learning tools</strong>, not just gatekeepers — share why changes improve clarity or maintainability</span>
             </li>
           </ul>
         </div>
       </div>
-      <div class="single-column" style="margin-top:20px;">
-        <!-- <div class="principle-card">
-      <h3 class="principle-title">Speaker Note</h3>
-      <p class="principle-description">"Ask: What metrics does your team use? Are they working for you?"</p>
-    </div> -->
+
+      <div class="content-grid">
+        <div class="content-column">
+          <h2 class="column-title">🧹 Apply the Boy Scout Rule</h2>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text"><strong>"Leave the code cleaner than you found it."</strong></span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Encourage small, continuous refactors whenever someone touches existing code — no big refactor "projects" required</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="content-column">
+          <h2 class="column-title">🛠️ Use Tools to Support, Not Enforce</h2>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Introduce linters, formatters, and static analysis gradually</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon">✅</span>
+              <span class="feature-text">Configure tools to suggest improvements rather than block progress at first (e.g., warn instead of error)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="single-column" style="margin-top: 20px;">
+        <div class="principle-card" style="background: #f7fafc; border-left: 4px solid #667eea;">
+          <h3 class="principle-title">🌟 Key Reminder</h3>
+          <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #2d3748; font-style: italic;">
+              <strong>"Adoption is a cultural change, not just technical. Consistency and shared understanding are more important than strict perfection."</strong>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- Slide 13: Writing Readable Tests -->
+    <!-- Slide: Writing Readable Tests -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Writing Readable Tests</h1>
@@ -1261,7 +1527,7 @@ const currentDate = DateTimeProvider.now();
     <!-- Navigation Controls (Projector Style) -->
     <div class="nav-controls">
       <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">Previous</button>
-      <div class="slide-counter" id="slideCounter">1 / 24</div>
+      <div class="slide-counter" id="slideCounter">1 / 21</div>
       <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next</button>
     </div>
     <script>
