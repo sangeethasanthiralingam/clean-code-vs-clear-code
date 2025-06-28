@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clean Code vs. Clear Code - Technical Deep Dive</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #1a1a2e;
+        color: #333;
+        overflow: hidden;
+      }
+
+      .presentation-container {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+      }
+
+      .slide {
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: none;
+        padding: 50px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        animation: slideIn 0.5s ease-in-out;
+        overflow-y: auto;
+      }
+
+      .slide.active {
+        display: flex;
+        flex-direction: column;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Navigation */
+      .nav-controls {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px 25px;
+        border-radius: 50px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .nav-btn {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-btn:hover {
+        background: #764ba2;
+        transform: scale(1.05);
+      }
+
+      .nav-btn:disabled {
+        background: #666;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .slide-counter {
+        color: white;
+        font-size: 14px;
+        margin: 0 10px;
+      }
+
+      /* Slide Styles */
+      .slide-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .slide-title {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+      }
+
+      .slide-subtitle {
+        font-size: 1.4rem;
+        color: #666;
+        font-weight: 300;
+      }
+
+      /* Title Slide */
+      .title-slide {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .title-slide .slide-title {
+        font-size: 4rem;
+        -webkit-text-fill-color: white;
+        margin-bottom: 30px;
+      }
+
+      .title-slide .slide-subtitle {
+        font-size: 1.8rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 40px;
+      }
+
+      .author-info {
+        font-size: 1.2rem;
+        opacity: 0.8;
+        margin-top: 40px;
+      }
+
+      /* Content Layouts */
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        flex: 1;
+      }
+
+      .content-column {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 30px;
+        border-left: 5px solid #667eea;
+      }
+
+      .column-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .feature-list {
+        list-style: none;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 15px;
+        padding: 12px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-icon {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #667eea;
+        margin-top: 8px;
+        flex-shrink: 0;
+      }
+
+      .feature-text {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      /* Single column layout */
+      .single-column {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .principle-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-left: 5px solid #667eea;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .principle-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+      }
+
+      .principle-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      /* Code examples */
+      .code-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-top: 25px;
+      }
+
+      .code-example {
+        background: #2d3748;
+        border-radius: 10px;
+        padding: 20px;
+        color: #e2e8f0;
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        overflow-x: auto;
+      }
+
+      .code-title {
+        color: #48bb78;
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 1rem;
+      }
+
+      .code-bad {
+        border-left: 4px solid #e53e3e;
+      }
+
+      .code-good {
+        border-left: 4px solid #48bb78;
+      }
+
+      /* Martin's Rules */
+      .rules-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .rule-card {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .rule-number {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        opacity: 0.9;
+      }
+
+      .rule-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .rule-text {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        opacity: 0.9;
+      }
+
+      /* Comparison table */
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+        font-size: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .comparison-table th {
+        background: #667eea;
+        color: white;
+        font-weight: 600;
+      }
+
+      .comparison-table tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+
+      /* Technical Examples */
+      .example-section {
+        margin: 30px 0;
+      }
+
+      .example-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      /* Anti-patterns */
+      .antipattern-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-top: 25px;
+      }
+
+      .antipattern-card {
+        background: #fff5f5;
+        border: 2px solid #e53e3e;
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      .antipattern-title {
+        color: #e53e3e;
+        font-weight: 600;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+
+      .pattern-card {
+        background: #f0fff4;
+        border: 2px solid #48bb78;
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      .pattern-title {
+        color: #48bb78;
+        font-weight: 600;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+
+      /* Quote styling */
+      .quote {
+        font-style: italic;
+        font-size: 1.2rem;
+        color: #555;
+        text-align: center;
+        margin: 30px 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-left: 4px solid #667eea;
+        border-radius: 8px;
+      }
+
+      .quote-author {
+        font-weight: 600;
+        color: #333;
+        margin-top: 10px;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .slide {
+          padding: 25px;
+        }
+
+        .slide-title {
+          font-size: 2.2rem;
+        }
+
+        .content-grid,
+        .code-container,
+        .antipattern-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .rules-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Projector Presentation Wrapper -->
+    <div class="presentation-container">
+      <!-- Slides START -->
+      <!-- Slide 1: Title -->
+      <div class="slide active title-slide">
+        <h1 class="slide-title">Clean Code vs. Clear Code</h1>
+        <p class="slide-subtitle">
+          Technical Deep Dive: Robert C. Martin's Principles vs.
+          Readability-First Approach
+        </p>
+        <div class="author-info">
+          <p>
+            Based on "Clean Code" by Robert C. Martin & Clear Code Principles
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 2: Martin's Quote -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">The Foundation</h1>
+          <p class="slide-subtitle">What drives good code practices</p>
+        </div>
+        <div class="quote">
+          "Any fool can write code that a computer can understand. Good
+          programmers write code that humans can understand."
+          <div class="quote-author">- Robert C. Martin (Uncle Bob)</div>
+        </div>
+        <div class="content-grid">
+          <div class="content-column">
+            <h2 class="column-title">🧹 Clean Code Philosophy</h2>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <span class="feature-icon"></span>
+                <span class="feature-text"
+                  >Code should be elegant and efficient</span
+                >
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon"></span>
+                <span class="feature-text"
+                  >Bad code tempts the mess to grow</span
+                >
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon"></span>
+                <span class="feature-text"
+                  >Clean code can be read like well-written prose</span
+                >
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon"></span>
+                <span class="feature-text"
+                  >Each function, class, and module should have a single
+                  responsibility</span
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="content-column">
+            <h2 class="column-title">🔍 Clear Code Philosophy</h2>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <span class="feature-icon"></span>
+                <span class="feature-text"
+                  >The name should reduce any confusion about what a software
+                  entity does</span
+                >
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon"></span>
+                <span class="feature-text"
+                  >Immediate comprehension over architectural elegance</span
+                >
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon"></span>
+                <span class="feature-text"
+                  >Explicit over implicit behavior</span
+                >
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon"></span>
+                <span class="feature-text"
+                  >Minimize cognitive load for the reader</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Martin's Clean Code Rules -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">Uncle Bob's Clean Code Rules</h1>
+          <p class="slide-subtitle">Core principles from "Clean Code"</p>
+        </div>
+        <div class="rules-grid">
+          <div class="rule-card">
+            <div class="rule-number">1</div>
+            <div class="rule-title">Meaningful Names</div>
+            <div class="rule-text">
+              Use intention-revealing names. Avoid disinformation. Make
+              meaningful distinctions.
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-number">2</div>
+            <div class="rule-title">Functions Should Be Small</div>
+            <div class="rule-text">
+              Functions should be 20 lines or fewer. Do one thing. Have no side
+              effects.
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-number">3</div>
+            <div class="rule-title">Comments</div>
+            <div class="rule-text">
+              Don't comment bad code—rewrite it. Good code mostly documents
+              itself.
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-number">4</div>
+            <div class="rule-title">Error Handling</div>
+            <div class="rule-text">
+              Use exceptions rather than return codes. Don't return null.
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-number">5</div>
+            <div class="rule-title">Classes</div>
+            <div class="rule-text">
+              Classes should be small. Single Responsibility Principle. High
+              cohesion.
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-number">6</div>
+            <div class="rule-title">Systems</div>
+            <div class="rule-text">
+              Separate constructing a system from using it. Use dependency
+              injection.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4: Clear Code Technical Principles -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">Clear Code Technical Principles</h1>
+          <p class="slide-subtitle">Readability-first programming practices</p>
+        </div>
+        <div class="single-column">
+          <div class="principle-card">
+            <h3 class="principle-title">1. Naming for Humans</h3>
+            <p class="principle-description">
+              Names should immediately communicate purpose without requiring
+              context. Prefer `getUserAccountBalance()` over `getUAB()` or
+              `calculate()`.
+            </p>
+          </div>
+          <div class="principle-card">
+            <h3 class="principle-title">2. Linear Code Flow</h3>
+            <p class="principle-description">
+              Code should read top-to-bottom like a newspaper. Avoid deeply
+              nested conditions and callbacks that break linear comprehension.
+            </p>
+          </div>
+          <div class="principle-card">
+            <h3 class="principle-title">3. Explicit Over Clever</h3>
+            <p class="principle-description">
+              Prefer explicit, verbose solutions over clever one-liners. Code is
+              read far more often than it's written.
+            </p>
+          </div>
+          <div class="principle-card">
+            <h3 class="principle-title">4. Consistent Formatting</h3>
+            <p class="principle-description">
+              Consistency in formatting improves readability. Establish a
+              pattern for how you write your code, such as indentation and
+              spacing.
+            </p>
+          </div>
+          <div class="principle-card">
+            <h3 class="principle-title">5. Single Level of Abstraction</h3>
+            <p class="principle-description">
+              Each function should operate at one level of abstraction. Don't
+              mix high-level business logic with low-level implementation
+              details.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5: Naming Conventions - Technical Comparison -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">Naming Conventions: Technical Examples</h1>
+          <p class="slide-subtitle">Clean Code vs. Clear Code approaches</p>
+        </div>
+        <div class="code-container">
+          <div class="code-example code-bad">
+            <div class="code-title">
+              ❌ Poor Naming (Both Approaches Reject)
+            </div>
+            <pre>
+function calc(u, t) {
+  return u * t * 0.1;
+}
+
+let d = new Date();
+let usr = getUsr();
+let flag = false;</pre
+            >
+          </div>
+          <div class="code-example code-good">
+            <div class="code-title">✅ Clean Code Approach</div>
+            <pre>
+class TaxCalculator {
+  calculateTax(amount: Money, rate: TaxRate): Money {
+    return amount.multiply(rate.getValue());
+  }
+}
+
+const taxCalculator = new TaxCalculator();
+const currentDate = DateTimeProvider.now();</pre
+            >
+          </div>
+        </div>
+        <div class="code-container">
+          <div class="code-example code-good">
+            <div class="code-title">✅ Clear Code Approach</div>
+            <pre>
+function calculateTaxAmount(orderAmount, taxRate) {
+  return orderAmount * taxRate;
+}
+
+function isUserAccountActive(user) {
+  return user.status === 'active' && 
+         user.subscriptionEndDate > new Date();
+}</pre
+            >
+          </div>
+          <div class="code-example">
+            <div class="code-title">Key Differences</div>
+            <pre>
+Clean Code:
+• Strong typing
+• Domain objects
+• Design patterns
+• Abstraction layers
+
+Clear Code:
+• Descriptive names
+• Simple functions
+• Direct logic
+• Minimal abstraction</pre
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 6: Functions - Technical Deep Dive -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">Function Design: Technical Comparison</h1>
+          <p class="slide-subtitle">Martin's rules vs. Clarity principles</p>
+        </div>
+        <div class="example-section">
+          <div class="example-title">User Validation Example</div>
+          <div class="code-container">
+            <div class="code-example">
+              <div class="code-title">
+                Clean Code: Single Responsibility + Abstraction
+              </div>
+              <pre>
+class UserValidator {
+  private emailValidator: EmailValidator;
+  private ageValidator: AgeValidator;
+  
+  validate(user: User): ValidationResult {
+    const emailResult = this.emailValidator.validate(user.email);
+    const ageResult = this.ageValidator.validate(user.age);
+    
+    return ValidationResult.combine(emailResult, ageResult);
+  }
+}
+
+class EmailValidator {
+  validate(email: Email): ValidationResult {
+    return email.isValid() 
+      ? ValidationResult.success()
+      : ValidationResult.failure("Invalid email format");
+  }
+}</pre
+              >
+            </div>
+            <div class="code-example">
+              <div class="code-title">Clear Code: Direct and Explicit</div>
+              <pre>
+function validateUser(user) {
+  const errors = [];
+  
+  // Check email format
+  if (!user.email || !user.email.includes('@')) {
+    errors.push('Email must contain @ symbol');
+  }
+  
+  // Check age requirement
+  if (!user.age || user.age < 18) {
+    errors.push('User must be 18 or older');
+  }
+  
+  // Check required fields
+  if (!user.name || user.name.trim().length < 2) {
+    errors.push('Name must be at least 2 characters');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors: errors
+  };
+}</pre
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 7: Error Handling Patterns -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">Error Handling: Technical Approaches</h1>
+          <p class="slide-subtitle">Exceptions vs. explicit error handling</p>
+        </div>
+        <div class="code-container">
+          <div class="code-example">
+            <div class="code-title">Clean Code: Exception-Based</div>
+            <pre>
+class UserService {
+  async createUser(userData: UserData): Promise&lt;User&gt; {
+    try {
+      const validatedData = this.validator.validate(userData);
+      const user = await this.repository.save(validatedData);
+      await this.emailService.sendWelcomeEmail(user);
+      return user;
+    } catch (ValidationError error) {
+      throw new UserCreationError('Validation failed', error);
+    } catch (DatabaseError error) {
+      throw new UserCreationError('Database operation failed', error);
+    }
+  }
+}</pre
+            >
+          </div>
+          <div class="code-example">
+            <div class="code-title">Clear Code: Explicit Return Values</div>
+            <pre>
+async function createUser(userData) {
+  // Validate input
+  const validationResult = validateUserData(userData);
+  if (!validationResult.success) {
+    return {
+      success: false,
+      error: 'Validation failed: ' + validationResult.message,
+      user: null
+    };
+  }
+  
+  // Save to database
+  const saveResult = await saveUserToDatabase(userData);
+  if (!saveResult.success) {
+    return {
+      success: false,
+      error: 'Failed to save user: ' + saveResult.error,
+      user: null
+    };
+  }
+  
+  // Send welcome email (optional, don't fail if this fails)
+  const emailResult = await sendWelcomeEmail(saveResult.user);
+  if (!emailResult.success) {
+    console.warn('Welcome email failed:', emailResult.error);
+  }
+  
+  return {
+    success: true,
+    error: null,
+    user: saveResult.user
+  };
+}</pre
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 8: Anti-patterns and Solutions -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">Common Anti-patterns</h1>
+          <p class="slide-subtitle">What both approaches avoid</p>
+        </div>
+        <div class="antipattern-grid">
+          <div class="antipattern-card">
+            <div class="antipattern-title">❌ God Functions</div>
+            <p>
+              Functions that do everything. Both approaches advocate for
+              smaller, focused functions, but for different reasons.
+            </p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-title">✅ Focused Functions</div>
+            <p>
+              Clean Code: Single Responsibility Principle<br />Clear Code: Easy
+              to understand and test
+            </p>
+          </div>
+          <div class="antipattern-card">
+            <div class="antipattern-title">❌ Cryptic Abbreviations</div>
+            <p>
+              Variables like `usr`, `calc`, `proc`. Both demand meaningful
+              names, though implementation differs.
+            </p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-title">✅ Descriptive Names</div>
+            <p>
+              Clean Code: Domain-driven naming<br />Clear Code: Human-readable
+              descriptions
+            </p>
+          </div>
+          <div class="antipattern-card">
+            <div class="antipattern-title">❌ Deep Nesting</div>
+            <p>
+              Multiple levels of if/else and loops that hurt readability and
+              maintainability.
+            </p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-title">✅ Early Returns</div>
+            <p>
+              Guard clauses and early exits to reduce cognitive load and improve
+              flow.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 9: SOLID Principles Deep Dive -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">SOLID Principles in Practice</h1>
+          <p class="slide-subtitle">Clean Code's architectural foundation</p>
+        </div>
+        <div class="single-column">
+          <div class="principle-card">
+            <h3 class="principle-title">S - Single Responsibility Principle</h3>
+            <p class="principle-description">
+              A class should have only one reason to change. Each class should
+              have only one job or responsibility.
+            </p>
+          </div>
+          <div class="principle-card">
+            <h3 class="principle-title">O - Open/Closed Principle</h3>
+            <p class="principle-description">
+              Software entities should be open for extension but closed for
+              modification. Add new functionality without changing existing
+              code.
+            </p>
+          </div>
+          <div class="principle-card">
+            <h3 class="principle-title">L - Liskov Substitution Principle</h3>
+            <p class="principle-description">
+              Objects of a superclass should be replaceable with objects of a
+              subclass without breaking the application.
+            </p>
+          </div>
+          <div class="principle-card">
+            <h3 class="principle-title">I - Interface Segregation Principle</h3>
+            <p class="principle-description">
+              Clients should not be forced to depend on interfaces they don't
+              use. Create specific, focused interfaces.
+            </p>
+          </div>
+          <div class="principle-card">
+            <h3 class="principle-title">D - Dependency Inversion Principle</h3>
+            <p class="principle-description">
+              Classes should depend upon interfaces or abstract classes instead
+              of concrete classes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 10: When to Choose Which Approach -->
+      <div class="slide">
+        <div class="slide-header">
+          <h1 class="slide-title">Decision Matrix: When to Choose Which</h1>
+          <p class="slide-subtitle">Technical factors for approach selection</p>
+        </div>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Factor</th>
+              <th>Choose Clean Code When...</th>
+              <th>Choose Clear Code When...</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Project Lifespan</strong></td>
+              <td>Long-term (2+ years), multiple iterations</td>
+              <td>Short-term scripts, prototypes, one-offs</td>
+            </tr>
+            <tr>
+              <td><strong>Team Size</strong></td>
+              <td>Large teams (5+ developers)</td>
+              <td>Small teams (1-3 developers)</td>
+            </tr>
+            <tr>
+              <td><strong>Code Complexity</strong></td>
+              <td>Complex business logic, multiple domains</td>
+              <td>Straightforward CRUD, simple algorithms</td>
+            </tr>
+            <tr>
+              <td><strong>Performance Requirements</strong></td>
+              <td>Can afford abstraction overhead</td>
+              <td>Need maximum performance, minimal layers</td>
+            </tr>
+            <tr>
+              <td><strong>Readability vs. Maintainability</strong></td>
+              <td>Maintainability is critical</td>
+              <td>
+                Readability is paramount, even at the cost of some
+                maintainability
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Codebase Age</strong></td>
+              <td>Legacy code that needs refactoring</td>
+              <td>New code that needs to be immediately understandable</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Slide 11: Advanced Naming Techniques -->
+<div class="slide">
+  <div class="slide-header">
+    <h1 class="slide-title">Advanced Naming Techniques</h1>
+    <p class="slide-subtitle">Naming strategies from Clean Code and Clear Code</p>
+  </div>
+  <div class="content-grid">
+    <div class="content-column">
+      <h2 class="column-title">🧼 Clean Code Approach</h2>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Domain-driven names:</strong> Align variable and function names with business terms (e.g., `Invoice`, `calculateTaxAmount`).</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Avoid abbreviations:</strong> Spell out full words (`customerAddress`) instead of shortcuts (`custAddr`).</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Boolean names:</strong> Use positive affirmations like `isEligibleForDiscount()` instead of confusing negations.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Function verbs:</strong> Start with action words like `get`, `set`, `find`, `validate`, `update`, `send`.</span>
+        </li>
+      </ul>
+    </div>
+    <div class="content-column">
+      <h2 class="column-title">👁️ Clear Code Approach</h2>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Human-first names:</strong> Prioritize immediate comprehension over strict domain accuracy (e.g., `getCustomerBalance()` vs. `calcCustBal()`).</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Contextual clarity:</strong> Ensure names make sense even when read in isolation (no need to refer to other files).</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Function length vs. name:</strong> Long functions require clearer names; short functions can have simpler names.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Redundancy avoidance:</strong> Don’t repeat the context unnecessarily (e.g., `user.getUser()` is redundant).</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="code-container">
+    <div class="code-example code-bad">
+      <div class="code-title">❌ Poor Naming</div>
+      <pre>function calc(u, t) {
+  return u * t * 0.1;
+}
+let d = new Date();
+let flag = false;</pre>
+    </div>
+    <div class="code-example code-good">
+      <div class="code-title">✅ Good Naming</div>
+      <pre>function calculateTaxAmount(orderAmount, taxRate) {
+  return orderAmount * taxRate;
+}
+const currentDate = DateTimeProvider.now();</pre>
+    </div>
+  </div>
+</div>
+     <!-- Slide 12: Functions with Fewer Side Effects -->
+<div class="slide">
+  <div class="slide-header">
+    <h1 class="slide-title">Functions with Fewer Side Effects</h1>
+    <p class="slide-subtitle">How Clean Code and Clear Code reduce unintended behavior</p>
+  </div>
+  <div class="content-grid">
+    <div class="content-column">
+      <h2 class="column-title">🧼 Clean Code Perspective</h2>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Pure functions:</strong> Prefer pure functions that do not modify external state or depend on hidden inputs.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Command-Query Separation:</strong> A function should either return a value OR cause a side effect—never both.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>No global variables:</strong> Avoid using global or static state inside functions to prevent unpredictable behavior.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Testable design:</strong> Functions without side effects are easier to test and reason about.</span>
+        </li>
+      </ul>
+    </div>
+    <div class="content-column">
+      <h2 class="column-title">👁️ Clear Code Perspective</h2>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Explicit behavior:</strong> Make side effects obvious through naming (e.g., `saveUser()` vs. `processUser()`).</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Minimize mutation:</strong> Return new values instead of modifying input parameters directly (e.g., avoid pass-by-reference unless necessary).</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Read-only functions:</strong> Use functions that only read data when possible; they're safer and more predictable.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Single action per function:</strong> If a function has multiple side effects, break it into smaller ones.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="code-container">
+    <div class="code-example code-bad">
+      <div class="code-title">❌ Bad Example</div>
+      <pre>function updateCart(cart, item) {
+  cart.items.push(item);
+  cart.total += item.price;
+}</pre>
+    </div>
+    <div class="code-example code-good">
+      <div class="code-title">✅ Good Example</div>
+      <pre>function addItemToCart(cart, item) {
+  const newItems = [...cart.items, item];
+  const newTotal = cart.total + item.price;
+  return { ...cart, items: newItems, total: newTotal };
+}</pre>
+    </div>
+  </div>
+</div>
+      <!-- Slide 13: Writing Readable Tests -->
+<div class="slide">
+  <div class="slide-header">
+    <h1 class="slide-title">Writing Readable Tests</h1>
+    <p class="slide-subtitle">Best practices from TDD, Clean Code, and Clear Code</p>
+  </div>
+  <div class="single-column">
+    <div class="principle-card">
+      <h3 class="principle-title">1. One Assert Per Test</h3>
+      <p class="principle-description">Each test should verify one behavior only. Multiple asserts can obscure what’s being tested.</p>
+    </div>
+    <div class="principle-card">
+      <h3 class="principle-title">2. Meaningful Test Names</h3>
+      <p class="principle-description">Use descriptive names like `should_throw_error_when_user_not_found()` rather than vague ones like `testLogin()`.</p>
+    </div>
+    <div class="principle-card">
+      <h3 class="principle-title">3. Arrange-Act-Assert Pattern</h3>
+      <p class="principle-description">Structure each test clearly: setup (arrange), execute (act), verify (assert). Improves readability and debugging.</p>
+    </div>
+    <div class="principle-card">
+      <h3 class="principle-title">4. Avoid Magic Numbers</h3>
+      <p class="principle-description">Replace arbitrary numbers like `42` with named constants or comments explaining their significance.</p>
+    </div>
+    <div class="principle-card">
+      <h3 class="principle-title">5. Don't Skip Edge Cases</h3>
+      <p class="principle-description">Tests should cover edge cases like empty strings, nulls, and invalid inputs—these are often where bugs hide.</p>
+    </div>
+  </div>
+  <div class="code-container">
+    <div class="code-example code-bad">
+      <div class="code-title">❌ Poorly Written Test</div>
+      <pre>test('login', () => {
+  let u = new User('bob', 'pass123');
+  assert(login(u));
+});</pre>
+    </div>
+    <div class="code-example code-good">
+      <div class="code-title">✅ Well-Written Test</div>
+      <pre>test('login_should_return_true_for_valid_credentials', () => {
+  // Arrange
+  const validUser = new User('alice', 'securePass!');
+
+  // Act
+  const result = login(validUser);
+
+  // Assert
+  expect(result).toBe(true);
+});</pre>
+    </div>
+  </div>
+</div><!-- Slide 14: Conclusion -->
+<div class="slide">
+  <div class="slide-header">
+    <h1 class="slide-title">Conclusion</h1>
+    <p class="slide-subtitle">Clean Code and Clear Code: Two Sides of the Same Coin</p>
+  </div>
+
+  <!-- Summary Section -->
+  <div class="content-grid">
+    <div class="content-column">
+      <h2 class="column-title">🧼 Key Takeaways - Clean Code</h2>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Write code for humans first:</strong> Computers will run anything, but humans need clarity.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Small, focused functions:</strong> Each function should do one thing and do it well.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Meaningful names:</strong> Names should reveal intent and avoid ambiguity.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Abstraction matters:</strong> Use SOLID principles to build scalable, maintainable systems.</span>
+        </li>
+      </ul>
+    </div>
+    <div class="content-column">
+      <h2 class="column-title">👁️ Key Takeaways - Clear Code</h2>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Readability over cleverness:</strong> Simple, explicit code beats smart tricks.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Linear flow is king:</strong> Avoid deeply nested logic; keep code top-to-bottom.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Minimize cognitive load:</strong> Reduce mental effort required to understand code.</span>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon"></span>
+          <span class="feature-text"><strong>Practical naming:</strong> Prioritize immediate comprehension over strict domain accuracy.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Final Thoughts -->
+  <div class="quote" style="margin-top: 40px;">
+    "Clean Code emphasizes design and architecture. Clear Code focuses on readability and simplicity. The best developers use both."
+    <div class="quote-author">— Modern Software Development Philosophy</div>
+  </div>
+
+  <!-- Closing Message -->
+  <div class="single-column" style="text-align: center; margin-top: 50px;">
+    <h2 style="font-size: 1.6rem; color: #333;">Final Thoughts</h2>
+    <p style="font-size: 1.1rem; color: #666; max-width: 800px; margin: 0 auto; line-height: 1.6;">
+      While Robert C. Martin’s *Clean Code* provides a strong foundation for building robust, scalable systems,
+      *Clear Code* reminds us that every line of code must be understood by humans first.
+      By combining these philosophies, you can write code that is not only maintainable and extensible,
+      but also easy to read, test, and modify—even years later or by new team members.
+    </p>
+    <p style="font-size: 1.1rem; color: #666; margin-top: 20px;">
+      Strive to write code that is clean <em>and</em> clear — because great code serves both machines and people.
+    </p>
+  </div>
+</div>
+      <!-- Slides END -->
+
+      <!-- Navigation Controls (Projector Style) -->
+      <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">Previous</button>
+        <div class="slide-counter" id="slideCounter">1 / 14</div>
+        <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next</button>
+      </div>
+      <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const slideCounter = document.getElementById('slideCounter');
+
+        function navigate(direction) {
+          slides[currentSlide].classList.remove('active');
+          currentSlide += direction;
+          if (currentSlide < 0) {
+            currentSlide = slides.length - 1;
+          } else if (currentSlide >= slides.length) {
+            currentSlide = 0;
+          }
+          slides[currentSlide].classList.add('active');
+          slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+        }
+      </script>
+    </div>
+    <!-- End Projector Presentation Wrapper -->
+  </body>
+</html>
