@@ -508,6 +508,7 @@
       </div>
 
       <!-- Slide 3: Martin's Clean Code Rules -->
+      <!-- Speaker Note: Quick poll - "How many of you follow Clean Code principles strictly?" -->
       <div class="slide">
         <div class="slide-header">
           <h1 class="slide-title">Uncle Bob's Clean Code Rules</h1>
@@ -613,6 +614,7 @@
       </div>
 
       <!-- Slide 5: Naming Conventions - Technical Comparison -->
+      <!-- Speaker Note: "Before we look at the examples, who can guess which approach would prefer longer, more descriptive variable names?" -->
       <div class="slide">
         <div class="slide-header">
           <h1 class="slide-title">Naming Conventions: Technical Examples</h1>
@@ -681,6 +683,7 @@ Clear Code:
       </div>
 
       <!-- Slide 6: Functions - Technical Deep Dive -->
+      <!-- Speaker Note: Consider a 'spot the difference' exercise with the code examples. -->
       <div class="slide">
         <div class="slide-header">
           <h1 class="slide-title">Function Design: Technical Comparison</h1>
@@ -815,6 +818,7 @@ async function createUser(userData) {
       </div>
 
       <!-- Slide 8: Anti-patterns and Solutions -->
+      <!-- Speaker Note: "Look at these anti-patterns - raise your hand if you've seen this in production code!" -->
       <div class="slide">
         <div class="slide-header">
           <h1 class="slide-title">Common Anti-patterns</h1>
@@ -913,6 +917,7 @@ async function createUser(userData) {
       </div>
 
       <!-- Slide 10: When to Choose Which Approach -->
+      <!-- Speaker Note: Ask audience to identify their current project type to make the matrix more personal. -->
       <div class="slide">
         <div class="slide-header">
           <h1 class="slide-title">Decision Matrix: When to Choose Which</h1>
@@ -1099,57 +1104,46 @@ const currentDate = DateTimeProvider.now();</pre>
     </div>
   </div>
 </div>
-      <!-- Slide 13: Writing Readable Tests -->
+<!-- End of Slide 12: Functions with Fewer Side Effects -->
+
+<!-- Slide 13: Hybrid Approach Example -->
 <div class="slide">
   <div class="slide-header">
-    <h1 class="slide-title">Writing Readable Tests</h1>
-    <p class="slide-subtitle">Best practices from TDD, Clean Code, and Clear Code</p>
+    <h1 class="slide-title">Hybrid Approach: Combining Clean & Clear Code</h1>
+    <p class="slide-subtitle">Practical example of blending both philosophies</p>
   </div>
   <div class="single-column">
     <div class="principle-card">
-      <h3 class="principle-title">1. One Assert Per Test</h3>
-      <p class="principle-description">Each test should verify one behavior only. Multiple asserts can obscure what’s being tested.</p>
+      <h3 class="principle-title">When to Blend Approaches?</h3>
+      <p class="principle-description">
+        Most real-world projects benefit from a mix of Clean Code's structure and Clear Code's readability. Use strong typing and abstraction for core logic, but keep business logic explicit and easy to follow.
+      </p>
     </div>
-    <div class="principle-card">
-      <h3 class="principle-title">2. Meaningful Test Names</h3>
-      <p class="principle-description">Use descriptive names like `should_throw_error_when_user_not_found()` rather than vague ones like `testLogin()`.</p>
-    </div>
-    <div class="principle-card">
-      <h3 class="principle-title">3. Arrange-Act-Assert Pattern</h3>
-      <p class="principle-description">Structure each test clearly: setup (arrange), execute (act), verify (assert). Improves readability and debugging.</p>
-    </div>
-    <div class="principle-card">
-      <h3 class="principle-title">4. Avoid Magic Numbers</h3>
-      <p class="principle-description">Replace arbitrary numbers like `42` with named constants or comments explaining their significance.</p>
-    </div>
-    <div class="principle-card">
-      <h3 class="principle-title">5. Don't Skip Edge Cases</h3>
-      <p class="principle-description">Tests should cover edge cases like empty strings, nulls, and invalid inputs—these are often where bugs hide.</p>
-    </div>
-  </div>
-  <div class="code-container">
-    <div class="code-example code-bad">
-      <div class="code-title">❌ Poorly Written Test</div>
-      <pre>test('login', () => {
-  let u = new User('bob', 'pass123');
-  assert(login(u));
-});</pre>
-    </div>
-    <div class="code-example code-good">
-      <div class="code-title">✅ Well-Written Test</div>
-      <pre>test('login_should_return_true_for_valid_credentials', () => {
-  // Arrange
-  const validUser = new User('alice', 'securePass!');
-
-  // Act
-  const result = login(validUser);
-
-  // Assert
-  expect(result).toBe(true);
-});</pre>
+    <div class="code-container">
+      <div class="code-example code-good">
+        <div class="code-title">Hybrid Example (TypeScript/JavaScript)</div>
+        <pre>
+class UserService {
+  // Clean Code: Strong typing and single responsibility
+  async createUserAccount(userData: CreateUserRequest): Promise&lt;UserCreationResult&gt; {
+    // Clear Code: Explicit step-by-step logic
+    const validationErrors = this.validateUserData(userData);
+    if (validationErrors.length > 0) {
+      return { success: false, errors: validationErrors };
+    }
+    
+    const newUser = await this.saveUserToDatabase(userData);
+    await this.sendWelcomeEmail(newUser);
+    
+    return { success: true, user: newUser };
+  }
+}
+        </pre>
+      </div>
     </div>
   </div>
-</div><!-- Slide 14: Conclusion -->
+</div>
+      <!-- Slide 14: Conclusion -->
 <div class="slide">
   <div class="slide-header">
     <h1 class="slide-title">Conclusion</h1>
@@ -1265,6 +1259,33 @@ const currentDate = DateTimeProvider.now();</pre>
       </ul>
     </div>
 
+  </div>
+</div>
+<!-- Before References Slide -->
+<div class="slide">
+  <div class="slide-header">
+    <h1 class="slide-title">Performance Impact</h1>
+    <p class="slide-subtitle">Does Clean or Clear Code affect speed?</p>
+  </div>
+  <div class="single-column">
+    <div class="principle-card">
+      <h3 class="principle-title">Abstraction Overhead</h3>
+      <p class="principle-description">
+        Clean Code's abstractions can add minor overhead, but modern compilers and interpreters optimize well. For most business apps, clarity and maintainability matter more than micro-optimizations.
+      </p>
+    </div>
+    <div class="principle-card">
+      <h3 class="principle-title">Directness vs. Maintainability</h3>
+      <p class="principle-description">
+        Clear Code may be more direct and slightly faster in critical paths, but can be harder to extend. Profile before optimizing!
+      </p>
+    </div>
+    <div class="principle-card">
+      <h3 class="principle-title">Best Practice</h3>
+      <p class="principle-description">
+        Write for clarity first, then optimize bottlenecks as needed.
+      </p>
+    </div>
   </div>
 </div>
       <!-- Slides END -->
