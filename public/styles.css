@@ -491,6 +491,88 @@ body {
   font-size: 1.15rem;
   font-weight: 500;
 }
+.accordion {
+  background: #f7fafc;
+  border: none;
+  outline: none;
+  width: 100%;
+  text-align: left;
+  padding: 16px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.accordion.active, .accordion:hover {
+  background: #e2e8f0;
+}
+.panel {
+  padding: 18px 24px 18px 24px;
+  display: none;
+  background: #f9fafb;
+  overflow: hidden;
+  border-left: 4px solid #667eea;
+  border-radius: 0 0 8px 8px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(102,126,234,0.06);
+}
+.panel.show {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+.panel ul, .panel ol {
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+}
+.panel ul li {
+  margin-bottom: 0.5em;
+  padding-left: 0.5em;
+  list-style: none;
+  position: relative;
+}
+.panel ul li:before {
+  content: '\2022';
+  color: #667eea;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+.panel ul li.important:before {
+  content: '\2605'; /* star */
+  color: #f6ad55;
+}
+.panel ul li.tip:before {
+  content: '\1F4A1'; /* lightbulb */
+  color: #38b2ac;
+}
+.panel h3 {
+  margin-top: 1em;
+  color: #4c51bf;
+  font-size: 1.1em;
+}
+.panel blockquote {
+  background: #edf2f7;
+  border-left: 4px solid #f6ad55;
+  margin: 1em 0;
+  padding: 12px 18px;
+  font-style: italic;
+  color: #2d3748;
+  border-radius: 6px;
+}
+.panel pre {
+  background: #f1f5f9;
+  border-left: 4px solid #38b2ac;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.98em;
+  margin-bottom: 1em;
+}
+.panel ol li {
+  margin-bottom: 0.5em;
+  padding-left: 0.5em;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -513,3 +595,4 @@ body {
     grid-template-columns: 1fr;
   }
 } 
+

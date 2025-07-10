@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Quality Feature/Aspect Comparison</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #f7fafc;
+      color: #222;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 98vw;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 18px;
+      color: #4c51bf;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 1.1rem;
+      color: #667eea;
+      text-decoration: none;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.02rem;
+      background: white;
+      box-shadow: 0 2px 12px rgba(102,126,234,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .comparison-table th, .comparison-table td {
+      border: 1px solid #e2e8f0;
+      padding: 12px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    .comparison-table th {
+      background: #667eea;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .comparison-table tr:nth-child(even) {
+      background: #f1f5f9;
+    }
+    .aspect {
+      font-weight: bold;
+      color: #4c51bf;
+      text-align: center;
+    }
+    .example {
+      font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+      background: #f7fafc;
+      border-radius: 4px;
+      padding: 4px 8px;
+      display: inline-block;
+      color: #2d3748;
+    }
+    @media (max-width: 900px) {
+      .comparison-table, .comparison-table thead, .comparison-table tbody, .comparison-table th, .comparison-table td, .comparison-table tr {
+        display: block;
+      }
+      .comparison-table th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+      .comparison-table td {
+        border: none;
+        border-bottom: 1px solid #e2e8f0;
+      }
+    }
+    body, html {
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="clean_vs_clear_code_slide.html">← Back to Main Presentation</a>
+    <h1>Feature/Aspect Comparison of Code Qualities</h1>
+    <div style="overflow-x:auto;">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature/Aspect</th>
+            <th>Clean Code</th>
+            <th>Clear Code</th>
+            <th>Clever Code (Bad Kind)</th>
+            <th>Robust Code</th>
+            <th>Performant Code</th>
+            <th>Elegant Code (Good Clever)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="aspect">Primary Focus</td>
+            <td>Maintainability, Readability, Overall Health</td>
+            <td>Immediate Understandability of Logic/Intent</td>
+            <td>Conciseness, Obscure Ingenuity (often misguided)</td>
+            <td>Reliability, Error Handling, Resilience</td>
+            <td>Speed, Resource Efficiency, Scalability</td>
+            <td>Aesthetic Simplicity, Coherence, Conceptual Beauty</td>
+          </tr>
+          <tr>
+            <td class="aspect">What it is</td>
+            <td>Well-structured, easy to understand, change, and test. The ideal code for long-term projects.</td>
+            <td>Code whose purpose & flow are instantly obvious without mental effort.</td>
+            <td>Code that is tricky, uses obscure features, or sacrifices clarity for brevity.</td>
+            <td>Code that handles errors, invalid inputs, and unexpected conditions gracefully.</td>
+            <td>Code optimized to run quickly and efficiently, using minimal resources.</td>
+            <td>Code that solves complex problems with surprising simplicity & conceptual beauty.</td>
+          </tr>
+          <tr>
+            <td class="aspect">Key Characteristics</td>
+            <td>Meaningful names, small functions, low coupling, high cohesion, DRY, testable.</td>
+            <td>Direct logic, explicit operations, simple expressions, self-documenting.</td>
+            <td>Cryptic, high cognitive load, tightly coupled, uses obscure syntax/algorithms, brittle.</td>
+            <td>Comprehensive error handling, input validation, defensive programming, fault tolerance.</td>
+            <td>Optimal algorithms/data structures, minimal resource consumption, profiled & benchmarked.</td>
+            <td>Concise (but not cryptic), simple solution for complex problem, intuitive, reflects deep understanding, evokes "Aha!" moment.</td>
+          </tr>
+          <tr>
+            <td class="aspect">Relationship to Others</td>
+            <td>Umbrella Term: Encompasses clear, often robust, performant. Actively avoids bad clever code.</td>
+            <td>Core Component of Clean: Clean code must be clear.</td>
+            <td>Antithesis of Clean/Clear: Actively works against these goals, creates technical debt.</td>
+            <td>Goal of Clean: Good design (clean code) often leads to robust systems.</td>
+            <td>Goal of Clean (when needed): Can be achieved within clean code, but sometimes trades off with extreme clarity.</td>
+            <td>Highest Form of Clean/Good Cleverness: Achieves brilliance without sacrificing clarity.</td>
+          </tr>
+          <tr>
+            <td class="aspect">Analogy</td>
+            <td>A well-organized, well-maintained, user-friendly workshop.</td>
+            <td>A crystal-clear, step-by-step instruction manual.</td>
+            <td>A complex riddle or a magic trick whose secret is deliberately hidden.</td>
+            <td>A fortress designed to withstand sieges and internal failures.</td>
+            <td>A highly optimized racing car built for pure speed and efficiency.</td>
+            <td>A brilliant mathematical proof or a perfectly balanced sculpture.</td>
+          </tr>
+          <tr>
+            <td class="aspect">Example (General)</td>
+            <td><span class="example">Modular functions, descriptive variable names (calculateOrderTotal)</span></td>
+            <td><span class="example">if (status == ACTIVE) vs. if (status). Breaking complex expressions into named variables.</span></td>
+            <td><span class="example">Nested ternary operators, single-line lambda chains for complex logic, bitwise ops for non-bitwise tasks.</span></td>
+            <td><span class="example">Input validation at API boundaries, try-catch blocks, graceful degradation, retry logic.</span></td>
+            <td><span class="example">Using a hash map for lookups instead of a linear scan; optimized sorting algorithms.</span></td>
+            <td><span class="example">A recursive solution that directly mirrors a mathematical definition; a design pattern that simplifies system extensibility.</span></td>
+          </tr>
+          <tr>
+            <td class="aspect">Benefits</td>
+            <td>Lower long-term costs, faster development, fewer bugs, easier onboarding, scalable.</td>
+            <td>Quick understanding, fewer misinterpretations, faster debugging, self-documenting.</td>
+            <td>(Perceived short-term) Brief satisfaction for author.</td>
+            <td>System stability, increased user trust, reduced downtime, prevents data corruption.</td>
+            <td>Faster execution, improved user experience, lower infrastructure costs, handles higher loads.</td>
+            <td>Reduces complexity, fosters innovation, highly maintainable, inspires future development, often more performant and robust.</td>
+          </tr>
+          <tr>
+            <td class="aspect">Drawbacks</td>
+            <td>Requires discipline and effort.</td>
+            <td>(None, it's always desirable)</td>
+            <td>High technical debt, difficult to debug, brittle, slows team velocity, increases bugs.</td>
+            <td>Can add initial development time/code volume.</td>
+            <td>Can sometimes reduce clarity; premature optimization is wasteful.</td>
+            <td>Hard to achieve consistently; requires deep understanding and experience.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html> 
