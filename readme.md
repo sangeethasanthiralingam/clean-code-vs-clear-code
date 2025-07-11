@@ -69,7 +69,7 @@ This project provides an interactive presentation that compares and contrasts Cl
 ### Files Structure
 ```
 public/
-├── clean_vs_clear_code_slide.html     # Main presentation
+├── index.html     # Main presentation
 ├── naming_conventions_guide.html      # Interactive naming guide
 ├── code_improvement_presentation.html # Code improvement guide
 ├── feature_aspect_comparison.html     # Feature comparison tool
@@ -124,7 +124,7 @@ public/
 
 1. **Open the Presentation**:
    ```bash
-   open public/clean_vs_clear_code_slide.html
+   open public/index.html
    ```
 
 2. **Navigate the Slides**:
@@ -205,7 +205,7 @@ You can easily deploy this project as a static site on [Vercel](https://vercel.c
 
 3. **Deploy**
    - Click Deploy. Vercel will serve all files in the `public` directory as static routes.
-   - For example, `/clean_vs_clear_code_slide.html` will be available at `https://your-vercel-url/clean_vs_clear_code_slide.html`.
+   - For example, `/index.html` will be available at `https://your-vercel-url/index.html`.
    - All other HTML files in `public/` are accessible as direct routes.
 
 **No backend or server code is required.**
