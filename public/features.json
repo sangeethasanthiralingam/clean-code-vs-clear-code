@@ -1,0 +1,74 @@
+[
+  {
+    "aspect": "Primary Focus",
+    "Clean Code": "Maintainability, Readability, Overall Health",
+    "Clear Code": "Immediate Understandability of Logic/Intent",
+    "Clever Code (Bad Kind)": "Conciseness, Obscure Ingenuity (often misguided)",
+    "Robust Code": "Reliability, Error Handling, Resilience",
+    "Performant Code": "Speed, Resource Efficiency, Scalability",
+    "Elegant Code (Good Clever)": "Aesthetic Simplicity, Coherence, Conceptual Beauty"
+  },
+  {
+    "aspect": "What it is",
+    "Clean Code": "Well-structured, easy to understand, change, and test. The ideal code for long-term projects.",
+    "Clear Code": "Code whose purpose & flow are instantly obvious without mental effort.",
+    "Clever Code (Bad Kind)": "Code that is tricky, uses obscure features, or sacrifices clarity for brevity.",
+    "Robust Code": "Code that handles errors, invalid inputs, and unexpected conditions gracefully.",
+    "Performant Code": "Code optimized to run quickly and efficiently, using minimal resources.",
+    "Elegant Code (Good Clever)": "Code that solves complex problems with surprising simplicity & conceptual beauty."
+  },
+  {
+    "aspect": "Key Characteristics",
+    "Clean Code": "Meaningful names, small functions, low coupling, high cohesion, DRY, testable.",
+    "Clear Code": "Direct logic, explicit operations, simple expressions, self-documenting.",
+    "Clever Code (Bad Kind)": "Cryptic, high cognitive load, tightly coupled, uses obscure syntax/algorithms, brittle.",
+    "Robust Code": "Comprehensive error handling, input validation, defensive programming, fault tolerance.",
+    "Performant Code": "Optimal algorithms/data structures, minimal resource consumption, profiled & benchmarked.",
+    "Elegant Code (Good Clever)": "Concise (but not cryptic), simple solution for complex problem, intuitive, reflects deep understanding, evokes 'Aha!' moment."
+  },
+  {
+    "aspect": "Relationship to Others",
+    "Clean Code": "Umbrella Term: Encompasses clear, often robust, performant. Actively avoids bad clever code.",
+    "Clear Code": "Core Component of Clean: Clean code must be clear.",
+    "Clever Code (Bad Kind)": "Antithesis of Clean/Clear: Actively works against these goals, creates technical debt.",
+    "Robust Code": "Goal of Clean: Good design (clean code) often leads to robust systems.",
+    "Performant Code": "Goal of Clean (when needed): Can be achieved within clean code, but sometimes trades off with extreme clarity.",
+    "Elegant Code (Good Clever)": "Highest Form of Clean/Good Cleverness: Achieves brilliance without sacrificing clarity."
+  },
+  {
+    "aspect": "Analogy",
+    "Clean Code": "A well-organized, well-maintained, user-friendly workshop.",
+    "Clear Code": "A crystal-clear, step-by-step instruction manual.",
+    "Clever Code (Bad Kind)": "A complex riddle or a magic trick whose secret is deliberately hidden.",
+    "Robust Code": "A fortress designed to withstand sieges and internal failures.",
+    "Performant Code": "A highly optimized racing car built for pure speed and efficiency.",
+    "Elegant Code (Good Clever)": "A brilliant mathematical proof or a perfectly balanced sculpture."
+  },
+  {
+    "aspect": "Example (General)",
+    "Clean Code": "Modular functions, descriptive variable names (calculateOrderTotal)",
+    "Clear Code": "if (status == ACTIVE) vs. if (status). Breaking complex expressions into named variables.",
+    "Clever Code (Bad Kind)": "Nested ternary operators, single-line lambda chains for complex logic, bitwise ops for non-bitwise tasks.",
+    "Robust Code": "Input validation at API boundaries, try-catch blocks, graceful degradation, retry logic.",
+    "Performant Code": "Using a hash map for lookups instead of a linear scan; optimized sorting algorithms.",
+    "Elegant Code (Good Clever)": "A recursive solution that directly mirrors a mathematical definition; a design pattern that simplifies system extensibility."
+  },
+  {
+    "aspect": "Benefits",
+    "Clean Code": "Lower long-term costs, faster development, fewer bugs, easier onboarding, scalable.",
+    "Clear Code": "Quick understanding, fewer misinterpretations, faster debugging, self-documenting.",
+    "Clever Code (Bad Kind)": "(Perceived short-term) Brief satisfaction for author.",
+    "Robust Code": "System stability, increased user trust, reduced downtime, prevents data corruption.",
+    "Performant Code": "Faster execution, improved user experience, lower infrastructure costs, handles higher loads.",
+    "Elegant Code (Good Clever)": "Reduces complexity, fosters innovation, highly maintainable, inspires future development, often more performant and robust."
+  },
+  {
+    "aspect": "Drawbacks",
+    "Clean Code": "Requires discipline and effort.",
+    "Clear Code": "(None, it's always desirable)",
+    "Clever Code (Bad Kind)": "High technical debt, difficult to debug, brittle, slows team velocity, increases bugs.",
+    "Robust Code": "Can add initial development time/code volume.",
+    "Performant Code": "Can sometimes reduce clarity; premature optimization is wasteful.",
+    "Elegant Code (Good Clever)": "Hard to achieve consistently; requires deep understanding and experience."
+  }
+] 

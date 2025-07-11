@@ -190,3 +190,25 @@ For questions or suggestions about the presentation content or interactive featu
 
 **Built with ❤️ for the developer community**
 
+## 🚀 Deploying to Vercel
+
+You can easily deploy this project as a static site on [Vercel](https://vercel.com/):
+
+1. **Import the Project**
+   - Go to https://vercel.com/import and select your GitHub/GitLab repo, or upload the project folder.
+
+2. **Configure Project Settings**
+   - **Framework Preset:** `Other`
+   - **Root Directory:** Project root (where this README is)
+   - **Output Directory:** `public`
+   - No build command is needed (leave blank).
+
+3. **Deploy**
+   - Click Deploy. Vercel will serve all files in the `public` directory as static routes.
+   - For example, `/clean_vs_clear_code_slide.html` will be available at `https://your-vercel-url/clean_vs_clear_code_slide.html`.
+   - All other HTML files in `public/` are accessible as direct routes.
+
+**No backend or server code is required.**
+
+For custom domains or further configuration, see the [Vercel documentation](https://vercel.com/docs).
+
