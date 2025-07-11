@@ -9,6 +9,21 @@
 </head>
 
 <body>
+  <!-- Slide Search and Jump Controls (Mouse Hover Only) -->
+  <div id="top-controls"
+    style="position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: center; align-items: center; gap: 18px; padding: 18px 0 10px 0; background: rgba(255,255,255,0.97); box-shadow: 0 2px 8px rgba(102,126,234,0.10); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s;">
+    <div>
+      <label for="slideJump" style="font-weight: 500; color: #333; margin-right: 6px;">Jump to slide:</label>
+      <select id="slideJump" style="padding: 6px 10px; border-radius: 5px; font-size: 1rem;"></select>
+    </div>
+    <div>
+      <input id="slideSearch" type="text" placeholder="Search slides or content..."
+        style="padding: 6px 10px; border-radius: 5px; font-size: 1rem; width: 220px;" />
+      <div id="searchResults"
+        style="position: relative; background: #fff; border: 1px solid #ccc; border-radius: 5px; z-index: 3000; display: none; max-height: 200px; overflow-y: auto; width: 320px; margin-top: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+      </div>
+    </div>
+  </div>
   <!-- Projector Presentation Wrapper -->
   <div class="presentation-container">
     <!-- Slides START -->
@@ -39,23 +54,27 @@
     <!-- Slide 2: Title -->
     <div class="slide title-slide">
       <h1 class="slide-title">Clean Code vs. Clear Code: Finding the Right Balance</h1>
+      <div class="version-info"
+        style="text-align: center; margin-bottom: 20px; color: #667eea; font-size: 1.2rem; font-weight: 700; background: rgba(255,255,255,0.9); padding: 8px 16px; border-radius: 8px; display: inline-block; margin-left: auto; margin-right: auto; box-shadow: 0 2px 8px rgba(102,126,234,0.2);">
+        🚀 Version 2.0
+      </div>
       <div class="author-info">
         <p>
           Sangeetha Santhiralingam<br>
           Software Engineer<br>
           HNDIT | Reading BSc (Hons) in Software Engineering<br>
-          Presenting on: <!-- You can update the date below as needed -->
-          2025-07-04
+          Presenting on: 2025-07-11
         </p>
       </div>
       <div style="text-align:center; margin-top: 30px;">
         <a href="feature_aspect_comparison.html"
-          style="display:inline-block; background:#667eea; color:white; font-size:1.15rem; padding:12px 28px; border-radius:6px; text-decoration:none; font-weight:600; box-shadow:0 2px 8px rgba(102,126,234,0.10); transition:background 0.2s;">Compare
+          style="display:inline-block; background:#667eea; color:white; font-size:1.15rem; padding:12px 28px; border-radius:6px; text-decoration:none; font-weight:600; box-shadow:0 2px 8px rgba(102,126,234,0.10); transition:all 0.3s; opacity:0; pointer-events:none;"
+          id="compareButton">Compare
           Code Qualities &rarr;</a>
       </div>
     </div>
 
-    <!-- Slide 3: Martin's Quote -->
+    <!-- Slide 3: The Foundation -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">The Foundation</h1>
@@ -118,7 +137,7 @@
       </div>
     </div>
 
-    <!-- Slide 4: Martin's Clean Code Rules -->
+    <!-- Slide 4: Uncle Bob's Clean Code Rules -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Uncle Bob's Clean Code Rules</h1>
@@ -226,7 +245,7 @@
       </div>
     </div>
 
-    <!-- Slide 6: Naming Conventions - Technical Comparison -->
+    <!-- Slide 6: Naming Conventions: Technical Examples -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Naming Conventions: Technical Examples</h1>
@@ -235,6 +254,11 @@
       <div style="margin-bottom: 18px; text-align: center; color: #764ba2; font-size: 1.05rem;">
         <strong>Engagement:</strong> Before we look at the examples, who can guess which approach would prefer longer,
         more descriptive variable names?
+      </div>
+      <div style="position: absolute; top: 100px; right: 20px; z-index: 100;">
+        <a href="naming_conventions_guide.html"
+          style="display:inline-block; background:#764ba2; color:white; font-size:1.2rem; padding:8px 12px; border-radius:50%; text-decoration:none; box-shadow:0 2px 8px rgba(118,75,162,0.10); transition:all 0.3s; opacity:0; pointer-events:none;"
+          id="namingGuideButton" title="Complete Naming Guide">📚</a>
       </div>
       <div class="code-container">
         <div class="code-example code-bad">
@@ -294,7 +318,85 @@ Clear Code:
       </div>
     </div>
 
-    <!-- Slide 7: Functions - Technical Deep Dive -->
+    <!-- Slide 7: Advanced Naming Techniques -->
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">Advanced Naming Techniques</h1>
+        <p class="slide-subtitle">Naming strategies from Clean Code and Clear Code</p>
+      </div>
+      <div class="content-grid">
+        <div class="content-column">
+          <h2 class="column-title">🧼 Clean Code Approach</h2>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Domain-driven names:</strong> Use business terms consistently across
+                the whole system (e.g., `Invoice`, `calculateTaxAmount`).</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Avoid abbreviations:</strong> Use full words (`customerAddress`)
+                instead of shortcuts (`custAddr`).</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Positive boolean names:</strong> Prefer affirmations like
+                `isEligibleForDiscount()` over confusing negations.</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Action verbs for functions:</strong> Start names with verbs (`get`,
+                `set`, `find`, `validate`, `update`, `send`).</span>
+            </li>
+          </ul>
+        </div>
+        <div class="content-column">
+          <h2 class="column-title">👁️ Clear Code Approach</h2>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Human-first names:</strong> Prioritize immediate comprehension over
+                strict domain correctness (e.g., `getCustomerBalance()` vs. `calcCustBal()`).</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Contextual clarity:</strong> Names should make sense in isolation,
+                without needing to cross-reference other code.</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Function length vs. name detail:</strong> Longer functions require more
+                descriptive names; very short functions can be simpler.</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"></span>
+              <span class="feature-text"><strong>Avoid redundant context:</strong> Don't repeat unnecessary parts (e.g.,
+                `user.getUser()` → `user.get()`).</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-container">
+        <div class="code-example code-bad">
+          <div class="code-title">❌ Poor Naming</div>
+          <pre>function calc(u, t) {
+return u * t * 0.1; // What is calc? What are u and t?
+}
+let d = new Date();    // What does d represent?
+let flag = false;      // Flag for what?</pre>
+        </div>
+        <div class="code-example code-good">
+          <div class="code-title">✅ Good Naming</div>
+          <pre>function calculateTaxAmount(orderAmount, taxRate) {
+return orderAmount * taxRate;
+}
+const currentDate = DateTimeProvider.now();
+
+// Clear, specific, self-explanatory</pre>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 8: Function Design: Technical Comparison -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Function Design: Technical Comparison</h1>
@@ -362,7 +464,7 @@ function validateUser(user) {
       </div>
     </div>
 
-    <!-- Slide 8: Error Handling Patterns -->
+    <!-- Slide 9: Error Handling: Technical Approaches -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Error Handling: Technical Approaches</h1>
@@ -427,7 +529,7 @@ async function createUser(userData) {
       </div>
     </div>
 
-    <!-- Slide 9: Anti-patterns and Solutions -->
+    <!-- Slide 10: Common Anti-patterns -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Common Anti-patterns</h1>
@@ -587,17 +689,26 @@ def processUser(user):
         <h3 style="color: #764ba2; margin-bottom: 10px;">
           How Anti-Patterns, Code Smells, and Technical Debt Interconnect
         </h3>
-        <a href="https://mermaid.live/edit#pako:eNqdlG1vmzAQx7-K5RdRJyVdE0hCmDSpgVSKtIduSTVppC8cOMCqsZltsmZVv_sOSBr2UKkqEuIM_v3_Z_uOBxqrBKhPM83KnKzDjSR4XUYfWHxHVEpCbmJeCi6BvCXXSmkSguGZxEfMDVfS3JLB4D2ZnwUoRFYFCGHIgKz2RWlVYUiPLGXCY2aVNm_eHeQbJDi7lJYPrpm1oGUNLSWkKcSW71BJicrW-jXUYvMGC6MbWTAuLd5sK4A0xut9Ceb2oB-0E5_AsBkvok-QsUa8Qb5UTHDLW-zo0EO4h0CPLBroKrqM46qoBLOQkDXEucTFCFz-1mLG67wWM_b2Dy-yoUsZiyoBQ-DeaiiApErjbgh-BxvapjeMViXLcrCWNwkds3-5wij6ynZcidfyTvRNcwuDz1Ls_ycRMEkEsIRYdURcrAwDGksBTwCfR6rlFn9Z5-onqQuMbCFnOzAHlcUwutIs44fDO7q-lMZl84wnr2KdaFkUatu1bgVMtW17IFAayNKYCqHmS1OxbQgy-Wf-teYF03vykUmegrGsqdoTOj-FwfMqqxL7KeUxyiks6gJV4rZMV1ZXsa10N52wEw478agTO53Yfd54Xu8PVxprOsC84UcFMu56LTphx2vR8Vo4z-vXHXIjLO6RbVvlhF09UbSPPyCeUB_XCn1agMYOxyF9qKdsqM2xgDfUxzCBlFXCbuhGPiJWMvldqeJIalVlOfVTJgyOqjJB15AzTOU0Bf1AB6qSlvrjRoH6D_Se-gPnwvPOJ-PJdDq-8EbO2PP6dI_vvaFzPryYjYbubDqaON5jn_5qTN1z1505w8ls6rljdzx7_A0Igpm8" target="_blank">
-    <img src="https://mermaid.ink/img/pako:eNqdlG1vmzAQx7-K5RdRJyVdE0hCmDSpgVSKtIduSTVppC8cOMCqsZltsmZVv_sOSBr2UKkqEuIM_v3_Z_uOBxqrBKhPM83KnKzDjSR4XUYfWHxHVEpCbmJeCi6BvCXXSmkSguGZxEfMDVfS3JLB4D2ZnwUoRFYFCGHIgKz2RWlVYUiPLGXCY2aVNm_eHeQbJDi7lJYPrpm1oGUNLSWkKcSW71BJicrW-jXUYvMGC6MbWTAuLd5sK4A0xut9Ceb2oB-0E5_AsBkvok-QsUa8Qb5UTHDLW-zo0EO4h0CPLBroKrqM46qoBLOQkDXEucTFCFz-1mLG67wWM_b2Dy-yoUsZiyoBQ-DeaiiApErjbgh-BxvapjeMViXLcrCWNwkds3-5wij6ynZcidfyTvRNcwuDz1Ls_ycRMEkEsIRYdURcrAwDGksBTwCfR6rlFn9Z5-onqQuMbCFnOzAHlcUwutIs44fDO7q-lMZl84wnr2KdaFkUatu1bgVMtW17IFAayNKYCqHmS1OxbQgy-Wf-teYF03vykUmegrGsqdoTOj-FwfMqqxL7KeUxyiks6gJV4rZMV1ZXsa10N52wEw478agTO53Yfd54Xu8PVxprOsC84UcFMu56LTphx2vR8Vo4z-vXHXIjLO6RbVvlhF09UbSPPyCeUB_XCn1agMYOxyF9qKdsqM2xgDfUxzCBlFXCbuhGPiJWMvldqeJIalVlOfVTJgyOqjJB15AzTOU0Bf1AB6qSlvrjRoH6D_Se-gPnwvPOJ-PJdDq-8EbO2PP6dI_vvaFzPryYjYbubDqaON5jn_5qTN1z1505w8ls6rljdzx7_A0Igpm8?type=png"
-         alt="How Anti-Patterns, Code Smells, and Technical Debt Interconnect"
-         style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(102,126,234,0.10);margin-bottom:12px;">
-  </a>
-  <div style="font-size: 0.95rem; color: #666; margin-top: 8px; max-width: 700px; margin-left: auto; margin-right: auto;">
-    This diagram shows how poor design choices and lack of discipline lead to code smells and anti-patterns, which
-    manifest as unmaintainable code and negative qualities, ultimately resulting in technical debt.
-  </div>
-</div>
+        <a href="https://mermaid.live/edit#pako:eNqdlG1vmzAQx7-K5RdRJyVdE0hCmDSpgVSKtIduSTVppC8cOMCqsZltsmZVv_sOSBr2UKkqEuIM_v3_Z_uOBxqrBKhPM83KnKzDjSR4XUYfWHxHVEpCbmJeCi6BvCXXSmkSguGZxEfMDVfS3JLB4D2ZnwUoRFYFCGHIgKz2RWlVYUiPLGXCY2aVNm_eHeQbJDi7lJYPrpm1oGUNLSWkKcSW71BJicrW-jXUYvMGC6MbWTAuLd5sK4A0xut9Ceb2oB-0E5_AsBkvok-QsUa8Qb5UTHDLW-zo0EO4h0CPLBroKrqM46qoBLOQkDXEucTFCFz-1mLG67wWM_b2Dy-yoUsZiyoBQ-DeaiiApErjbgh-BxvapjeMViXLcrCWNwkds3-5wij6ynZcidfyTvRNcwuDz1Ls_ycRMEkEsIRYdURcrAwDGksBTwCfR6rlFn9Z5-onqQuMbCFnOzAHlcUwutIs44fDO7q-lMZl84wnr2KdaFkUatu1bgVMtW17IFAayNKYCqHmS1OxbQgy-Wf-teYF03vykUmegrGsqdoTOj-FwfMqqxL7KeUxyiks6gJV4rZMV1ZXsa10N52wEw478agTO53Yfd54Xu8PVxprOsC84UcFMu56LTphx2vR8Vo4z-vXHXIjLO6RbVvlhF09UbSPPyCeUB_XCn1agMYOxyF9qKdsqM2xgDfUxzCBlFXCbuhGPiJWMvldqeJIalVlOfVTJgyOqjJB15AzTOU0Bf1AB6qSlvrjRoH6D_Se-gPnwvPOJ-PJdDq-8EbO2PP6dI_vvaFzPryYjYbubDqaON5jn_5qTN1z1505w8ls6rljdzx7_A0Igpm8"
+          target="_blank">
+          <img
+            src="https://mermaid.ink/img/pako:eNqdlG1vmzAQx7-K5RdRJyVdE0hCmDSpgVSKtIduSTVppC8cOMCqsZltsmZVv_sOSBr2UKkqEuIM_v3_Z_uOBxqrBKhPM83KnKzDjSR4XUYfWHxHVEpCbmJeCi6BvCXXSmkSguGZxEfMDVfS3JLB4D2ZnwUoRFYFCGHIgKz2RWlVYUiPLGXCY2aVNm_eHeQbJDi7lJYPrpm1oGUNLSWkKcSW71BJicrW-jXUYvMGC6MbWTAuLd5sK4A0xut9Ceb2oB-0E5_AsBkvok-QsUa8Qb5UTHDLW-zo0EO4h0CPLBroKrqM46qoBLOQkDXEucTFCFz-1mLG67wWM_b2Dy-yoUsZiyoBQ-DeaiiApErjbgh-BxvapjeMViXLcrCWNwkds3-5wij6ynZcidfyTvRNcwuDz1Ls_ycRMEkEsIRYdURcrAwDGksBTwCfR6rlFn9Z5-onqQuMbCFnOzAHlcUwutIs44fDO7q-lMZl84wnr2KdaFkUatu1bgVMtW17IFAayNKYCqHmS1OxbQgy-Wf-teYF03vykUmegrGsqdoTOj-FwfMqqxL7KeUxyiks6gJV4rZMV1ZXsa10N52wEw478agTO53Yfd54Xu8PVxprOsC84UcFMu56LTphx2vR8Vo4z-vXHXIjLO6RbVvlhF09UbSPPyCeUB_XCn1agMYOxyF9qKdsqM2xgDfUxzCBlFXCbuhGPiJWMvldqeJIalVlOfVTJgyOqjJB15AzTOU0Bf1AB6qSlvrjRoH6D_Se-gPnwvPOJ-PJdDq-8EbO2PP6dI_vvaFzPryYjYbubDqaON5jn_5qTN1z1505w8ls6rljdzx7_A0Igpm8?type=png"
+            alt="How Anti-Patterns, Code Smells, and Technical Debt Interconnect"
+            style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(102,126,234,0.10);margin-bottom:12px;">
+        </a>
+        <div
+          style="font-size: 0.95rem; color: #666; margin-top: 8px; max-width: 700px; margin-left: auto; margin-right: auto;">
+          This diagram shows how poor design choices and lack of discipline lead to code smells and anti-patterns, which
+          manifest as unmaintainable code and negative qualities, ultimately resulting in technical debt.
+        </div>
+      </div>
       <!-- End Mermaid Diagram -->
+
+      <div style="position: absolute; top: 100px; right: 20px; z-index: 100;">
+        <a href="code_improvement_presentation.html"
+          style="display:inline-block; background:#e53e3e; color:white; font-size:1.1rem; padding:10px 24px; border-radius:6px; text-decoration:none; font-weight:600; box-shadow:0 2px 8px rgba(229,62,62,0.10); transition:all 0.3s; opacity:1; pointer-events:auto;" id="codeImprovementButton" title="Code Improvement Techniques">🔧 &rarr;</a>
+        <!-- Code Improvement Guide -->
+      </div>
 
       <!-- Mermaid JS initialization (must include once in your page) -->
       <script type="module">
@@ -607,7 +718,7 @@ def processUser(user):
 
     </div>
 
-    <!-- Slide 10: SOLID Principles Deep Dive -->
+    <!-- Slide 11: SOLID Principles in Practice -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">SOLID Principles in Practice</h1>
@@ -653,7 +764,7 @@ def processUser(user):
       </div>
     </div>
 
-    <!-- Slide 11: When to Choose Which Approach -->
+    <!-- Slide 12: Decision Matrix: When to Choose Which -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Decision Matrix: When to Choose Which</h1>
@@ -730,84 +841,7 @@ def processUser(user):
         </tbody>
       </table>
     </div>
-    <!-- Slide 12: Advanced Naming Techniques -->
-    <div class="slide">
-      <div class="slide-header">
-        <h1 class="slide-title">Advanced Naming Techniques</h1>
-        <p class="slide-subtitle">Naming strategies from Clean Code and Clear Code</p>
-      </div>
-      <div class="content-grid">
-        <div class="content-column">
-          <h2 class="column-title">🧼 Clean Code Approach</h2>
-          <ul class="feature-list">
-            <li class="feature-item">
-              <span class="feature-icon"></span>
-              <span class="feature-text"><strong>Domain-driven names:</strong> Use business terms consistently across
-                the whole system (e.g., `Invoice`, `calculateTaxAmount`).</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-icon"></span>
-              <span class="feature-text"><strong>Avoid abbreviations:</strong> Use full words (`customerAddress`)
-                instead of shortcuts (`custAddr`).</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-icon"></span>
-              <span class="feature-text"><strong>Positive boolean names:</strong> Prefer affirmations like
-                `isEligibleForDiscount()` over confusing negations.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-icon"></span>
-              <span class="feature-text"><strong>Action verbs for functions:</strong> Start names with verbs (`get`,
-                `set`, `find`, `validate`, `update`, `send`).</span>
-            </li>
-          </ul>
-        </div>
-        <div class="content-column">
-          <h2 class="column-title">👁️ Clear Code Approach</h2>
-          <ul class="feature-list">
-            <li class="feature-item">
-              <span class="feature-icon"></span>
-              <span class="feature-text"><strong>Human-first names:</strong> Prioritize immediate comprehension over
-                strict domain correctness (e.g., `getCustomerBalance()` vs. `calcCustBal()`).</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-icon"></span>
-              <span class="feature-text"><strong>Contextual clarity:</strong> Names should make sense in isolation,
-                without needing to cross-reference other code.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-icon"></span>
-              <span class="feature-text"><strong>Function length vs. name detail:</strong> Longer functions require more
-                descriptive names; very short functions can be simpler.</span>
-            </li>
-            <li class="feature-item">
-              <span class="feature-icon"></span>
-              <span class="feature-text"><strong>Avoid redundant context:</strong> Don't repeat unnecessary parts (e.g.,
-                `user.getUser()` → `user.get()`).</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="code-container">
-        <div class="code-example code-bad">
-          <div class="code-title">❌ Poor Naming</div>
-          <pre>function calc(u, t) {
-  return u * t * 0.1; // What is calc? What are u and t?
-}
-let d = new Date();    // What does d represent?
-let flag = false;      // Flag for what?</pre>
-        </div>
-        <div class="code-example code-good">
-          <div class="code-title">✅ Good Naming</div>
-          <pre>function calculateTaxAmount(orderAmount, taxRate) {
-  return orderAmount * taxRate;
-}
-const currentDate = DateTimeProvider.now();
 
-// Clear, specific, self-explanatory</pre>
-        </div>
-      </div>
-    </div>
     <!-- Slide 13: Functions with Fewer Side Effects -->
     <div class="slide">
       <div class="slide-header">
@@ -890,7 +924,7 @@ const currentDate = DateTimeProvider.now();
         </div>
       </div>
     </div>
-    <!-- Slide: Hybrid Approach -->
+    <!-- Slide 14: Hybrid Approach: Best of Both Worlds -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Hybrid Approach: Best of Both Worlds</h1>
@@ -1032,7 +1066,7 @@ const currentDate = DateTimeProvider.now();
         </div>
       </div>
     </div>
-    <!-- Slide: Writing Readable Tests -->
+    <!-- Slide 15: Writing Readable Tests -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Writing Readable Tests</h1>
@@ -1088,7 +1122,308 @@ const currentDate = DateTimeProvider.now();
         </div>
       </div>
     </div>
-    <!-- Slide 14: Conclusion -->
+    <!-- Slide 16: Team Adoption Strategies -->
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">🤝 Team Adoption Strategies</h1>
+        <p class="slide-subtitle">Practical approaches to implementing clean and clear code practices</p>
+      </div>
+      <div class="single-column">
+        <button class="accordion">🌱 The Foundation: Why Clean Code Matters</button>
+        <div class="panel">
+          <h3>Business Impact</h3>
+          <ul>
+            <li><b>Reduced debugging time</b> → More time for feature development</li>
+            <li><b>Faster onboarding</b> → New developers productive sooner</li>
+            <li><b>Lower maintenance costs</b> → Less technical debt compound interest</li>
+            <li><b>Improved team morale</b> → Developers enjoy working with quality code</li>
+          </ul>
+          <h3>Creating Team Buy-In</h3>
+          <ul>
+            <li>Connect coding standards to daily pain points</li>
+            <li>Show real examples from your codebase</li>
+            <li>Translate technical benefits to business outcomes</li>
+            <li>Make it about developer experience, not just compliance</li>
+          </ul>
+          <blockquote>"Clean code is not written by following a set of rules. You don't become a software craftsman by
+            learning a list of heuristics. Professionalism and craftsmanship come from values that drive disciplines." -
+            <b>Robert C. Martin</b>
+          </blockquote>
+        </div>
+        <button class="accordion">🚀 Implementation Strategy: Start Small, Scale Smart</button>
+        <div class="panel">
+          <h3>Phase 1: Foundation (Weeks 1-4)</h3>
+          <ul>
+            <li><b>Automated formatting</b> (Prettier, Black, gofmt)</li>
+            <li><b>Basic linting rules</b> (ESLint, Pylint, golint)</li>
+            <li><b>Consistent naming conventions</b></li>
+            <li><b>Simple code organization patterns</b></li>
+          </ul>
+          <h3>Phase 2: Structure (Weeks 5-12)</h3>
+          <ul>
+            <li><b>Function decomposition</b> (single responsibility)</li>
+            <li><b>Clear variable and method names</b></li>
+            <li><b>Consistent error handling</b></li>
+            <li><b>Documentation standards</b></li>
+          </ul>
+          <h3>Phase 3: Architecture (Weeks 13+)</h3>
+          <ul>
+            <li><b>Design pattern consistency</b></li>
+            <li><b>Module organization</b></li>
+            <li><b>Dependency management</b></li>
+            <li><b>Advanced refactoring techniques</b></li>
+          </ul>
+          <blockquote>"Always code as if the guy who ends up maintaining your code will be a violent psychopath who
+            knows where you live." - <b>John Woods</b></blockquote>
+        </div>
+        <button class="accordion">🛠️ Tool Integration: Automate the Basics</button>
+        <div class="panel">
+          <h3>Essential Tools</h3>
+          <pre style="background:#f7fafc; padding:8px; border-radius:6px;">Formatters: Handle spacing, indentation, syntax
+Linters: Catch common issues and enforce standards
+Static Analysis: Identify complexity and code smells
+CI/CD Integration: Prevent quality regressions</pre>
+          <h3>Implementation Tips</h3>
+          <ul>
+            <li><b>Start with auto-formatting</b> → Zero cognitive load</li>
+            <li><b>Gradual linter rule introduction</b> → Avoid overwhelming developers</li>
+            <li><b>Pre-commit hooks</b> → Catch issues before they spread</li>
+            <li><b>Quality gates</b> → Prevent problematic code from advancing</li>
+          </ul>
+          <blockquote>"Indeed, the ratio of time spent reading versus writing is well over 10 to 1. We are constantly
+            reading old code as part of the effort to write new code." - <b>Robert C. Martin</b></blockquote>
+        </div>
+        <button class="accordion">👥 Code Review Transformation</button>
+        <div class="panel">
+          <h3>Old Way: Error Detection</h3>
+          <ul>
+            <li>Focus on finding bugs</li>
+            <li>Nitpick formatting issues</li>
+            <li>Binary approve/reject decisions</li>
+            <li>Defensive developer responses</li>
+          </ul>
+          <h3>New Way: Collaborative Learning</h3>
+          <ul>
+            <li>Focus on clarity and maintainability</li>
+            <li>Explain the "why" behind suggestions</li>
+            <li>Offer specific alternatives</li>
+            <li>Create learning opportunities</li>
+          </ul>
+          <h3>Review Guidelines</h3>
+          <ul>
+            <li><b>Ask questions</b> → "What was your thinking here?"</li>
+            <li><b>Provide context</b> → "This pattern caused issues before because..."</li>
+            <li><b>Suggest alternatives</b> → "Consider this approach instead..."</li>
+            <li><b>Celebrate good practices</b> → "This is really clear!"</li>
+          </ul>
+          <blockquote>"Code is like humor. When you have to explain it, it's bad." - <b>Cory House</b></blockquote>
+        </div>
+        <button class="accordion">📚 Education and Skill Development</button>
+        <div class="panel">
+          <h3>Ongoing Learning Programs</h3>
+          <ul>
+            <li><b>Code archaeology sessions</b> → Examine existing code together</li>
+            <li><b>Lunch and learns</b> → Team members share techniques</li>
+            <li><b>Pair programming</b> → Real-time knowledge transfer</li>
+            <li><b>Code katas</b> → Practice in low-stakes environment</li>
+          </ul>
+          <h3>Knowledge Sharing</h3>
+          <ul>
+            <li><b>Clean code champions</b> → Local advocates and mentors</li>
+            <li><b>Best practice documentation</b> → Living style guides</li>
+            <li><b>Decision trees</b> → "When should I extract a method?"</li>
+            <li><b>Lessons learned repository</b> → Institutional knowledge</li>
+          </ul>
+        </div>
+        <button class="accordion">📊 Measuring Success</button>
+        <div class="panel">
+          <h3>Key Metrics</h3>
+          <ul>
+            <li><b>Code review cycle time</b> → Faster reviews indicate clearer code</li>
+            <li><b>Bug density by module</b> → Track quality improvements</li>
+            <li><b>Developer satisfaction</b> → Regular team surveys</li>
+            <li><b>Time spent debugging</b> → Measure maintenance overhead</li>
+          </ul>
+          <h3>Tracking Progress</h3>
+          <ul>
+            <li><b>Quality dashboards</b> → Make code health visible</li>
+            <li><b>Trend analysis</b> → Show improvement over time</li>
+            <li><b>Before/after examples</b> → Demonstrate impact</li>
+            <li><b>Celebration of wins</b> → Recognize good practices</li>
+          </ul>
+        </div>
+        <button class="accordion">🚧 Overcoming Common Challenges</button>
+        <div class="panel">
+          <h3>"This is overthinking simple code"</h3>
+          <ul>
+            <li><b>Show real examples</b> → When unclear code caused problems</li>
+            <li><b>Demonstrate ROI</b> → Time saved vs. time invested</li>
+            <li><b>Start with pain points</b> → Address existing frustrations first</li>
+          </ul>
+          <h3>"This slows us down"</h3>
+          <ul>
+            <li><b>Measure long-term velocity</b> → Clean code reduces debugging time</li>
+            <li><b>Build quality into estimates</b> → Don't treat it as overhead</li>
+            <li><b>Show compound benefits</b> → Initial investment pays dividends</li>
+          </ul>
+          <blockquote>"I'm not a great programmer; I'm just a good programmer with great habits." - <b>Kent Beck</b>
+          </blockquote>
+          <h3>"Perfect is the enemy of good"</h3>
+          <ul>
+            <li><b>Set realistic standards</b> → "Better" not "perfect"</li>
+            <li><b>Define "good enough"</b> → Clear quality thresholds</li>
+            <li><b>Focus on habits</b> → Sustainable improvement over time</li>
+          </ul>
+          <blockquote>"Programs must be written for people to read, and only incidentally for machines to execute." -
+            <b>Harold Abelson</b>
+          </blockquote>
+        </div>
+        <button class="accordion">🎭 Cultural Transformation</button>
+        <div class="panel">
+          <h3>Psychological Safety</h3>
+          <ul>
+            <li><b>Normalize confusion</b> → "I don't understand this" is OK</li>
+            <li><b>Value questions</b> → Asking for clarity is helping</li>
+            <li><b>Celebrate learning</b> → Mistakes are growth opportunities</li>
+          </ul>
+          <h3>Team Practices</h3>
+          <ul>
+            <li><b>Code reading sessions</b> → Walk through complex code together</li>
+            <li><b>Refactoring victories</b> → Share before/after improvements</li>
+            <li><b>Quality retrospectives</b> → Dedicated time for code quality discussions</li>
+          </ul>
+        </div>
+        <button class="accordion">🔄 Long-term Sustainability</button>
+        <div class="panel">
+          <h3>Organizational Integration</h3>
+          <ul>
+            <li><b>Onboarding processes</b> → New developers learn standards from day one</li>
+            <li><b>Cross-team communities</b> → Share practices beyond individual teams</li>
+            <li><b>Mentorship programs</b> → Pair experienced practitioners with learners</li>
+          </ul>
+          <h3>Continuous Improvement</h3>
+          <ul>
+            <li><b>Regular standard reviews</b> → Evolve practices as team grows</li>
+            <li><b>Feedback loops</b> → What's working? What's causing friction?</li>
+            <li><b>Adaptation</b> → Adjust approach based on team needs</li>
+          </ul>
+          <h3>Process Integration</h3>
+          <ul>
+            <li><b>Definition of done</b> → Quality criteria alongside functional requirements</li>
+            <li><b>Project planning</b> → Include clean code time in estimates</li>
+            <li><b>Escalation paths</b> → Clear resolution for quality conflicts</li>
+          </ul>
+        </div>
+        <button class="accordion">💡 Quick Wins to Start Today</button>
+        <div class="panel">
+          <h3>Week 1 Actions</h3>
+          <ol>
+            <li><b>Set up auto-formatting</b> → Eliminate formatting debates</li>
+            <li><b>Choose 3 basic linting rules</b> → Start with high-impact, low-friction rules</li>
+            <li><b>Create before/after examples</b> → Show value of clean code</li>
+            <li><b>Schedule team discussion</b> → Align on what "clean" means for your team</li>
+          </ol>
+          <h3>Month 1 Goals</h3>
+          <ul>
+            <li><b>Consistent formatting</b> across all new code</li>
+            <li><b>Basic naming conventions</b> established and followed</li>
+            <li><b>Positive code review culture</b> beginning to emerge</li>
+            <li><b>Team buy-in</b> on the value of clean code practices</li>
+          </ul>
+        </div>
+        <button class="accordion">🎯 Key Takeaways</button>
+        <div class="panel">
+          <h3>Success Factors</h3>
+          <ul>
+            <li><b>Start small</b> → Gradual adoption prevents overwhelming the team</li>
+            <li><b>Automate basics</b> → Tools handle mechanical aspects</li>
+            <li><b>Focus on culture</b> → Make quality a shared value</li>
+            <li><b>Measure impact</b> → Show concrete benefits</li>
+            <li><b>Stay consistent</b> → Persistent effort yields lasting change</li>
+          </ul>
+          <blockquote>"Leave the campground cleaner than you found it." - <b>The Boy Scout Rule</b> (popularized by
+            Robert C. Martin)</blockquote>
+          <h3>Remember</h3>
+          <blockquote>"The goal isn't perfect code - it's sustainably better code that serves your team's needs."
+          </blockquote>
+          <p>Clean code adoption is a journey, not a destination. Focus on building habits and culture that naturally
+            lead to cleaner, more maintainable software over time.</p>
+        </div>
+      </div>
+      <script>
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.classList.contains("show")) {
+              panel.classList.remove("show");
+            } else {
+              panel.classList.add("show");
+            }
+          });
+        }
+      </script>
+    </div>
+
+    <!-- Slide 17: Writing Readable Tests (Duplicate Title) -->
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">Writing Readable Tests</h1>
+        <p class="slide-subtitle">Best practices from TDD, Clean Code, and Clear Code</p>
+      </div>
+      <div class="single-column">
+        <div class="principle-card">
+          <h3 class="principle-title">1. One Assert Per Test</h3>
+          <p class="principle-description">Each test should verify one behavior only. Multiple asserts can obscure
+            what's being tested.</p>
+        </div>
+        <div class="principle-card">
+          <h3 class="principle-title">2. Meaningful Test Names</h3>
+          <p class="principle-description">Use descriptive names like `should_throw_error_when_user_not_found()` rather
+            than vague ones like `testLogin()`.</p>
+        </div>
+        <div class="principle-card">
+          <h3 class="principle-title">3. Arrange-Act-Assert Pattern</h3>
+          <p class="principle-description">Structure each test clearly: setup (arrange), execute (act), verify (assert).
+            Improves readability and debugging.</p>
+        </div>
+        <div class="principle-card">
+          <h3 class="principle-title">4. Avoid Magic Numbers</h3>
+          <p class="principle-description">Replace arbitrary numbers like `42` with named constants or comments
+            explaining their significance.</p>
+        </div>
+        <div class="principle-card">
+          <h3 class="principle-title">5. Don't Skip Edge Cases</h3>
+          <p class="principle-description">Tests should cover edge cases like empty strings, nulls, and invalid
+            inputs—these are often where bugs hide.</p>
+        </div>
+      </div>
+      <div class="code-container">
+        <div class="code-example code-bad">
+          <div class="code-title">❌ Poorly Written Test</div>
+          <pre>test('login', () => {
+  let u = new User('bob', 'pass123');
+  assert(login(u));
+});</pre>
+        </div>
+        <div class="code-example code-good">
+          <div class="code-title">✅ Well-Written Test</div>
+          <pre>test('login_should_return_true_for_valid_credentials', () => {
+  // Arrange
+  const validUser = new User('alice', 'securePass!');
+
+  // Act
+  const result = login(validUser);
+
+  // Assert
+  expect(result).toBe(true);
+});</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 18: Conclusion -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">Conclusion</h1>
@@ -1174,7 +1509,7 @@ const currentDate = DateTimeProvider.now();
         </div>
       </div>
     </div>
-    <!-- Slide 15: References -->
+    <!-- Slide 19: References & Further Reading -->
     <div class="slide">
       <div class="slide-header">
         <h1 class="slide-title">References & Further Reading</h1>
@@ -1210,14 +1545,76 @@ const currentDate = DateTimeProvider.now();
         </div>
 
         <!-- Additional Resources -->
-        <div class="principle-card">
+        <div class="principle-card" style="margin-bottom: 30px;">
           <h3 class="principle-title">📚 Additional Recommended Reading</h3>
           <ul style="list-style-type: disc; padding-left: 20px; color: #555;">
             <li><strong>Refactoring: Improving the Design of Existing Code</strong> by Martin Fowler</li>
             <li><strong>The Pragmatic Programmer</strong> by Andrew Hunt and David Thomas</li>
             <li><strong>Code Complete</strong> by Steve McConnell</li>
             <li><strong>You Don't Know JS</strong> series by Kyle Simpson (for JavaScript developers)</li>
+            <li><strong>Design Patterns: Elements of Reusable Object-Oriented Software</strong> by Gang of Four</li>
+            <li><strong>Working Effectively with Legacy Code</strong> by Michael Feathers</li>
+            <li><strong>Test-Driven Development: By Example</strong> by Kent Beck</li>
+            <li><strong>Domain-Driven Design</strong> by Eric Evans</li>
           </ul>
+        </div>
+
+        <!-- Online Resources -->
+        <div class="principle-card" style="margin-bottom: 30px;">
+          <h3 class="principle-title">🌐 Online Resources & Articles</h3>
+          <ul style="list-style-type: disc; padding-left: 20px; color: #555;">
+            <li><strong>Martin Fowler's Blog:</strong> <a href="https://martinfowler.com/" target="_blank"
+                style="color: #667eea;">martinfowler.com</a> - Articles on refactoring and design</li>
+            <li><strong>Clean Code JavaScript:</strong> <a href="https://github.com/ryanmcdermott/clean-code-javascript"
+                target="_blank" style="color: #667eea;">GitHub Repository</a> - JavaScript-specific clean code guide
+            </li>
+            <li><strong>Google Style Guides:</strong> <a href="https://google.github.io/styleguide/" target="_blank"
+                style="color: #667eea;">google.github.io/styleguide</a> - Language-specific style guides</li>
+            <li><strong>Airbnb JavaScript Style Guide:</strong> <a href="https://github.com/airbnb/javascript"
+                target="_blank" style="color: #667eea;">GitHub Repository</a> - Popular JavaScript conventions</li>
+            <li><strong>Real Python:</strong> <a href="https://realpython.com/python-pep8/" target="_blank"
+                style="color: #667eea;">PEP 8 Guide</a> - Python code style guide</li>
+            <li><strong>Microsoft C# Coding Conventions:</strong> <a
+                href="https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions"
+                target="_blank" style="color: #667eea;">Official Documentation</a></li>
+          </ul>
+        </div>
+
+        <!-- Tools & Communities -->
+        <div class="principle-card">
+          <h3 class="principle-title">🛠️ Tools & Communities</h3>
+          <div class="content-grid">
+            <div class="content-column">
+              <h4 style="color: #667eea; margin-bottom: 10px;">Code Quality Tools</h4>
+              <ul style="list-style-type: disc; padding-left: 20px; color: #555; font-size: 0.9rem;">
+                <li><strong>SonarQube:</strong> <a href="https://www.sonarqube.org/" target="_blank"
+                    style="color: #667eea;">sonarqube.org</a></li>
+                <li><strong>ESLint:</strong> <a href="https://eslint.org/" target="_blank"
+                    style="color: #667eea;">eslint.org</a></li>
+                <li><strong>Prettier:</strong> <a href="https://prettier.io/" target="_blank"
+                    style="color: #667eea;">prettier.io</a></li>
+                <li><strong>Black (Python):</strong> <a href="https://black.readthedocs.io/" target="_blank"
+                    style="color: #667eea;">black.readthedocs.io</a></li>
+                <li><strong>Checkstyle (Java):</strong> <a href="https://checkstyle.sourceforge.io/" target="_blank"
+                    style="color: #667eea;">checkstyle.sourceforge.io</a></li>
+              </ul>
+            </div>
+            <div class="content-column">
+              <h4 style="color: #764ba2; margin-bottom: 10px;">Communities & Forums</h4>
+              <ul style="list-style-type: disc; padding-left: 20px; color: #555; font-size: 0.9rem;">
+                <li><strong>Stack Overflow:</strong> <a href="https://stackoverflow.com/questions/tagged/clean-code"
+                    target="_blank" style="color: #667eea;">clean-code tag</a></li>
+                <li><strong>Reddit r/learnprogramming:</strong> <a href="https://www.reddit.com/r/learnprogramming/"
+                    target="_blank" style="color: #667eea;">reddit.com/r/learnprogramming</a></li>
+                <li><strong>Dev.to:</strong> <a href="https://dev.to/t/cleancode" target="_blank"
+                    style="color: #667eea;">cleancode tag</a></li>
+                <li><strong>Clean Code Alliance:</strong> <a href="https://cleancoders.com/" target="_blank"
+                    style="color: #667eea;">cleancoders.com</a></li>
+                <li><strong>Software Craftsmanship:</strong> <a href="https://manifesto.softwarecraftsmanship.org/"
+                    target="_blank" style="color: #667eea;">manifesto</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -1238,6 +1635,27 @@ const currentDate = DateTimeProvider.now();
 
       // Initialize slide counter on page load
       slideCounter.textContent = `1 / ${slides.length}`;
+
+      // Check for slide parameter in URL and navigate to that slide
+      function checkUrlForSlide() {
+        const hash = window.location.hash;
+        if (hash) {
+          const match = hash.match(/slide=(\d+)/);
+          if (match) {
+            const slideParam = match[1];
+            const slideIndex = parseInt(slideParam) - 1; // Convert to 0-based index
+            if (slideIndex >= 0 && slideIndex < slides.length) {
+              slides[currentSlide].classList.remove('active');
+              currentSlide = slideIndex;
+              slides[currentSlide].classList.add('active');
+              slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            }
+          }
+        }
+      }
+
+      // Check URL on page load
+      checkUrlForSlide();
 
       function navigate(direction) {
         slides[currentSlide].classList.remove('active');
@@ -1282,6 +1700,167 @@ const currentDate = DateTimeProvider.now();
           navControls.style.opacity = '0';
         }
       });
+
+      // Slide Jump Dropdown
+      const slideJump = document.getElementById('slideJump');
+      // For each slide, get the title from .slide-title inside it, or fallback
+      const slideTitles = Array.from(slides).map((slide, idx) => {
+        const titleEl = slide.querySelector('.slide-title');
+        return titleEl ? titleEl.textContent.trim() : `Slide ${idx + 1}`;
+      });
+      console.log('Mapped slide titles:', slideTitles);
+
+      // Clear existing options first
+      slideJump.innerHTML = '';
+
+      // Add options for each slide
+      Array.from(slides).forEach((slide, idx) => {
+        const title = slideTitles[idx];
+        const opt = document.createElement('option');
+        opt.value = idx;
+        opt.textContent = `${idx + 1}. ${title}`;
+        slideJump.appendChild(opt);
+      });
+      slideJump.addEventListener('change', function () {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = parseInt(this.value, 10);
+        slides[currentSlide].classList.add('active');
+        slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+      });
+
+      // Full-Text Search
+      const slideSearch = document.getElementById('slideSearch');
+      const searchResults = document.getElementById('searchResults');
+      const slideContents = Array.from(slides).map(slide => slide.textContent.toLowerCase());
+      function showSearchResults(results) {
+        searchResults.innerHTML = '';
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+        results.forEach(({ idx, title, snippet }) => {
+          const div = document.createElement('div');
+          div.style.padding = '8px 12px';
+          div.style.cursor = 'pointer';
+          div.style.borderBottom = '1px solid #eee';
+          div.innerHTML = `<b>${idx + 1}. ${title}</b><br><span style='font-size:0.95em;color:#666;'>${snippet}</span>`;
+          div.addEventListener('click', () => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = idx;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            searchResults.style.display = 'none';
+            slideSearch.value = '';
+          });
+          searchResults.appendChild(div);
+        });
+        searchResults.style.display = 'block';
+      }
+      slideSearch.addEventListener('input', function () {
+        const q = this.value.trim().toLowerCase();
+        console.log('Search query:', q); // Debug
+        if (!q) {
+          searchResults.style.display = 'none';
+          return;
+        }
+        const results = Array.from(slides).map((slide, idx) => {
+          const title = slideTitles[idx];
+          const content = slideContents[idx];
+          const matchIdx = content.indexOf(q);
+          let snippet = '';
+          if (matchIdx !== -1) {
+            const start = Math.max(0, matchIdx - 30);
+            const end = Math.min(content.length, matchIdx + 30);
+            snippet = content.substring(start, end).replace(q, `<mark>${q}</mark>`);
+          }
+          return matchIdx !== -1 ? { idx, title, snippet } : null;
+        }).filter(Boolean);
+        console.log('Search results:', results); // Debug
+        showSearchResults(results);
+      });
+      document.addEventListener('click', function (e) {
+        if (!searchResults.contains(e.target) && e.target !== slideSearch) {
+          searchResults.style.display = 'none';
+        }
+      });
+
+      // Top controls show/hide on mouse hover near top
+      const topControls = document.getElementById('top-controls');
+      document.addEventListener('mousemove', function (event) {
+        const windowHeight = window.innerHeight;
+        const mouseY = event.clientY;
+        const topThreshold = windowHeight * 0.15; // Top 15% of screen
+        if (mouseY < topThreshold) {
+          topControls.style.opacity = '1';
+          topControls.style.pointerEvents = 'auto';
+        } else {
+          topControls.style.opacity = '0';
+          topControls.style.pointerEvents = 'none';
+          document.getElementById('searchResults').style.display = 'none';
+        }
+      });
+      topControls.addEventListener('mouseenter', () => {
+        topControls.style.opacity = '1';
+        topControls.style.pointerEvents = 'auto';
+      });
+      topControls.addEventListener('mouseleave', (event) => {
+        const mouseY = event.clientY;
+        const windowHeight = window.innerHeight;
+        const topThreshold = windowHeight * 0.15;
+        if (mouseY >= topThreshold) {
+          topControls.style.opacity = '0';
+          topControls.style.pointerEvents = 'none';
+          document.getElementById('searchResults').style.display = 'none';
+        }
+      });
+
+      // Compare button show/hide on mouse hover for title slide
+      const compareButton = document.getElementById('compareButton');
+      const titleSlide = document.querySelector('.title-slide');
+
+      if (titleSlide && compareButton) {
+        titleSlide.addEventListener('mouseenter', () => {
+          compareButton.style.opacity = '1';
+          compareButton.style.pointerEvents = 'auto';
+        });
+
+        titleSlide.addEventListener('mouseleave', () => {
+          compareButton.style.opacity = '0';
+          compareButton.style.pointerEvents = 'none';
+        });
+      }
+
+      // Naming guide button show/hide on mouse hover for naming slide
+      const namingGuideButton = document.getElementById('namingGuideButton');
+      const namingSlide = document.querySelector('.slide:nth-child(6)'); // 6th slide is naming conventions
+
+      if (namingSlide && namingGuideButton) {
+        namingSlide.addEventListener('mouseenter', () => {
+          namingGuideButton.style.opacity = '1';
+          namingGuideButton.style.pointerEvents = 'auto';
+        });
+
+        namingSlide.addEventListener('mouseleave', () => {
+          namingGuideButton.style.opacity = '0';
+          namingGuideButton.style.pointerEvents = 'none';
+        });
+      }
+
+      // Code improvement button show/hide on mouse hover for anti-patterns slide
+      const codeImprovementButton = document.getElementById('codeImprovementButton');
+      const antiPatternsSlide = document.querySelector('.slide:nth-child(9)'); // 9th slide is anti-patterns
+
+      if (antiPatternsSlide && codeImprovementButton) {
+        antiPatternsSlide.addEventListener('mouseenter', () => {
+          codeImprovementButton.style.opacity = '1';
+          codeImprovementButton.style.pointerEvents = 'auto';
+        });
+
+        antiPatternsSlide.addEventListener('mouseleave', () => {
+          codeImprovementButton.style.opacity = '0';
+          codeImprovementButton.style.pointerEvents = 'none';
+        });
+      }
     </script>
   </div>
   <!-- End Projector Presentation Wrapper -->

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Naming Conventions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .case-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .case-card {
+            cursor: pointer;
+        }
+
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .case-card.expanded .expand-icon {
+            transform: rotate(45deg);
+        }
+
+        .card-content {
+            margin-top: 20px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .case-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .case-format {
+            background: #f7fafc;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .examples {
+            margin-bottom: 15px;
+        }
+
+        .examples h4 {
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .example-code {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .example-code::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .use-cases {
+            list-style: none;
+        }
+
+        .use-cases h4 {
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .use-cases li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .use-cases li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .use-cases li:last-child {
+            border-bottom: none;
+        }
+
+        .benefits-section {
+            margin-top: 20px;
+        }
+
+        .benefits-bubbles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .benefit-bubble {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-bubble::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .benefit-bubble:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .benefit-bubble:hover::before {
+            left: 100%;
+        }
+
+        .benefits-section h4 {
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .language-section {
+            margin-top: 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .language-section h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .language-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .language-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .language-rules {
+            list-style: none;
+        }
+
+        .language-rules li {
+            padding: 4px 0;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .highlight {
+            background: #fed7d7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .tip-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Programming Naming Conventions</h1>
+        <p class="subtitle">Learn how to name your variables, functions, and files properly in programming</p>
+
+        <div class="cases-grid">
+            <div class="case-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3 class="case-title">camelCase</h3>
+                    <div class="expand-icon">+</div>
+                </div>
+                <div class="card-content" style="display: none;">
+                    <div class="case-format">Start with lowercase, then capitalize each new word</div>
+                    <div class="examples">
+                        <h4>Examples</h4>
+                        <div class="example-code">myAge = 25<br>getUserName()<br>isLoggedIn = true</div>
+                    </div>
+                    <div class="use-cases">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Variables (storing data): myName, userAge</li>
+                            <li>Functions (actions): getName(), saveData()</li>
+                            <li>Most common in JavaScript, Java, C#</li>
+                        </ul>
+                    </div>
+                    <div class="benefits-section">
+                        <h4>Why It's Good</h4>
+                        <div class="benefits-bubbles">
+                            <div class="benefit-bubble">📖 Easy to read</div>
+                            <div class="benefit-bubble">⚡ Quick to type</div>
+                            <div class="benefit-bubble">👍 Most popular</div>
+                            <div class="benefit-bubble">🔧 Editor helps</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3 class="case-title">PascalCase</h3>
+                    <div class="expand-icon">+</div>
+                </div>
+                <div class="card-content" style="display: none;">
+                    <div class="case-format">Capitalize the first letter of every word</div>
+                    <div class="examples">
+                        <h4>Examples</h4>
+                        <div class="example-code">class Person<br>class BankAccount<br>MyComponent</div>
+                    </div>
+                    <div class="use-cases">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Class names (like Person, Car, Database)</li>
+                            <li>Components in React (MyButton, UserProfile)</li>
+                            <li>Important things that need to stand out</li>
+                        </ul>
+                    </div>
+                    <div class="benefits-section">
+                        <h4>Why It's Good</h4>
+                        <div class="benefits-bubbles">
+                            <div class="benefit-bubble">👑 Looks important</div>
+                            <div class="benefit-bubble">🏗️ Shows structure</div>
+                            <div class="benefit-bubble">📖 Easy to spot</div>
+                            <div class="benefit-bubble">🎨 Standard for classes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3 class="case-title">snake_case</h3>
+                    <div class="expand-icon">+</div>
+                </div>
+                <div class="card-content" style="display: none;">
+                    <div class="case-format">All lowercase letters with underscores between words</div>
+                    <div class="examples">
+                        <h4>Examples</h4>
+                        <div class="example-code">user_name = "John"<br>get_user_data()<br>is_logged_in = True</div>
+                    </div>
+                    <div class="use-cases">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Python programming (most common)</li>
+                            <li>Database table and column names</li>
+                            <li>File names (my_script.py)</li>
+                        </ul>
+                    </div>
+                    <div class="benefits-section">
+                        <h4>Why It's Good</h4>
+                        <div class="benefits-bubbles">
+                            <div class="benefit-bubble">🐍 Python loves it</div>
+                            <div class="benefit-bubble">📊 Database friendly</div>
+                            <div class="benefit-bubble">👁️ Very readable</div>
+                            <div class="benefit-bubble">💻 Unix style</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3 class="case-title">SCREAMING_SNAKE_CASE</h3>
+                    <div class="expand-icon">+</div>
+                </div>
+                <div class="card-content" style="display: none;">
+                    <div class="case-format">All UPPERCASE letters with underscores between words</div>
+                    <div class="examples">
+                        <h4>Examples</h4>
+                        <div class="example-code">MAX_USERS = 100<br>API_KEY = "abc123"<br>DEFAULT_TIMEOUT = 30</div>
+                    </div>
+                    <div class="use-cases">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Constants (values that never change)</li>
+                            <li>Configuration settings</li>
+                            <li>Environment variables</li>
+                        </ul>
+                    </div>
+                    <div class="benefits-section">
+                        <h4>Why It's Good</h4>
+                        <div class="benefits-bubbles">
+                            <div class="benefit-bubble">🚨 Very noticeable</div>
+                            <div class="benefit-bubble">⚠️ Shows "don't change"</div>
+                            <div class="benefit-bubble">🌐 Everyone uses it</div>
+                            <div class="benefit-bubble">🔍 Easy to find</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3 class="case-title">kebab-case</h3>
+                    <div class="expand-icon">+</div>
+                </div>
+                <div class="card-content" style="display: none;">
+                    <div class="case-format">All lowercase letters with dashes between words</div>
+                    <div class="examples">
+                        <h4>Examples</h4>
+                        <div class="example-code">&lt;div class="user-profile"&gt;<br>my-website.com/about-us<br>--main-color: blue;</div>
+                    </div>
+                    <div class="use-cases">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>CSS class names (.my-button, .user-card)</li>
+                            <li>Website URLs (example.com/about-us)</li>
+                            <li>HTML attributes and IDs</li>
+                        </ul>
+                    </div>
+                    <div class="benefits-section">
+                        <h4>Why It's Good</h4>
+                        <div class="benefits-bubbles">
+                            <div class="benefit-bubble">🌐 Web standard</div>
+                            <div class="benefit-bubble">🔗 URL friendly</div>
+                            <div class="benefit-bubble">🎨 CSS loves it</div>
+                            <div class="benefit-bubble">📱 SEO friendly</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <h3 class="case-title">UPPER-KEBAB-CASE</h3>
+                    <div class="expand-icon">+</div>
+                </div>
+                <div class="card-content" style="display: none;">
+                    <div class="case-format">All UPPERCASE letters with dashes between words</div>
+                    <div class="examples">
+                        <h4>Examples</h4>
+                        <div class="example-code">Content-Type: application/json<br>User-Agent: MyBrowser<br>X-API-KEY: secret123</div>
+                    </div>
+                    <div class="use-cases">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>HTTP headers (Content-Type, User-Agent)</li>
+                            <li>API response headers</li>
+                            <li>Some configuration files</li>
+                        </ul>
+                    </div>
+                    <div class="benefits-section">
+                        <h4>Why It's Good</h4>
+                        <div class="benefits-bubbles">
+                            <div class="benefit-bubble">🌐 HTTP standard</div>
+                            <div class="benefit-bubble">📡 API friendly</div>
+                            <div class="benefit-bubble">🔍 Easy to parse</div>
+                            <div class="benefit-bubble">🛠️ Tool support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-section">
+            <h2>Quick Guide by Programming Language</h2>
+            <div class="language-grid">
+                <div class="language-card">
+                    <h3 class="language-name">JavaScript</h3>
+                    <ul class="language-rules">
+                        <li>Variables: <span class="highlight">userName</span> (camelCase)</li>
+                        <li>Functions: <span class="highlight">getName()</span> (camelCase)</li>
+                        <li>Classes: <span class="highlight">User</span> (PascalCase)</li>
+                        <li>Constants: <span class="highlight">MAX_USERS</span> (SCREAMING_SNAKE_CASE)</li>
+                    </ul>
+                </div>
+
+                <div class="language-card">
+                    <h3 class="language-name">Python</h3>
+                    <ul class="language-rules">
+                        <li>Variables: <span class="highlight">user_name</span> (snake_case)</li>
+                        <li>Functions: <span class="highlight">get_name()</span> (snake_case)</li>
+                        <li>Classes: <span class="highlight">User</span> (PascalCase)</li>
+                        <li>Constants: <span class="highlight">MAX_USERS</span> (SCREAMING_SNAKE_CASE)</li>
+                    </ul>
+                </div>
+
+                <div class="language-card">
+                    <h3 class="language-name">Java/C#</h3>
+                    <ul class="language-rules">
+                        <li>Variables: <span class="highlight">userName</span> (camelCase)</li>
+                        <li>Methods: <span class="highlight">getName()</span> (camelCase)</li>
+                        <li>Classes: <span class="highlight">User</span> (PascalCase)</li>
+                        <li>Constants: <span class="highlight">MAX_USERS</span> (SCREAMING_SNAKE_CASE)</li>
+                    </ul>
+                </div>
+
+                <div class="language-card">
+                    <h3 class="language-name">CSS/HTML</h3>
+                    <ul class="language-rules">
+                        <li>Classes: <span class="highlight">.user-card</span> (kebab-case)</li>
+                        <li>IDs: <span class="highlight">#main-content</span> (kebab-case)</li>
+                        <li>Custom properties: <span class="highlight">--main-color</span> (kebab-case)</li>
+                    </ul>
+                </div>
+
+                <div class="language-card">
+                    <h3 class="language-name">Databases</h3>
+                    <ul class="language-rules">
+                        <li>Table names: <span class="highlight">user_profiles</span> (snake_case)</li>
+                        <li>Column names: <span class="highlight">first_name</span> (snake_case)</li>
+                        <li>Indexes: <span class="highlight">idx_user_email</span> (snake_case)</li>
+                    </ul>
+                </div>
+
+                <div class="language-card">
+                    <h3 class="language-name">URLs & Files</h3>
+                    <ul class="language-rules">
+                        <li>URL paths: <span class="highlight">/about-us</span> (kebab-case)</li>
+                        <li>File names: <span class="highlight">my-script.js</span> (kebab-case)</li>
+                        <li>Python files: <span class="highlight">my_script.py</span> (snake_case)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <h3>💡 Simple Rule to Remember</h3>
+            <p>Pick one style and stick with it in your project! Most code editors will help you follow the right naming rules automatically. When in doubt, look at examples in your programming language's documentation.</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="clean_vs_clear_code_slide.html#slide=6" 
+               style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 1.1rem; padding: 15px 30px; border-radius: 10px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;">
+                ← Back to Naming Slide
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function toggleCard(card) {
+            const content = card.querySelector('.card-content');
+            const expandIcon = card.querySelector('.expand-icon');
+            
+            if (content.style.display === 'none' || content.style.display === '') {
+                // Expand the card
+                content.style.display = 'block';
+                card.classList.add('expanded');
+                expandIcon.textContent = '−';
+            } else {
+                // Collapse the card
+                content.style.display = 'none';
+                card.classList.remove('expanded');
+                expandIcon.textContent = '+';
+            }
+        }
+    </script>
+</body>
+</html>
