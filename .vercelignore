@@ -1,6 +1,6 @@
-# Ignore everything by default
+# Ignore everything
 **
 
-# Except the public directory and readme.md
+# Except the public directory and its contents
 !public/
-!readme.md 
+!public/** 
